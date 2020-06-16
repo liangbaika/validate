@@ -9,7 +9,10 @@
 .settings
 .springBeans
 .sts4-cache
-
+.mvn
+.idea
+mvnw*
+*.iml
 ### IntelliJ IDEA ###
 .idea
 *.iws

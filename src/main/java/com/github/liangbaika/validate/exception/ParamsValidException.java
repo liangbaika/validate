@@ -1,4 +1,4 @@
-package com.github.kit.validate.exception;
+package com.github.liangbaika.validate.exception;
 
 /**
  * 参数校验异常

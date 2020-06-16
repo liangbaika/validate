@@ -1,7 +1,7 @@
-package com.github.kit.validate.enums;
+package com.github.liangbaika.validate.enums;
 
 
-import com.github.kit.validate.utils.CheckUtil;
+import com.github.liangbaika.validate.utils.CheckUtil;
 
 import java.util.function.BiFunction;
 

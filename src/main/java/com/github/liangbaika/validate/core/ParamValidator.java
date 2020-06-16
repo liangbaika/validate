@@ -1,4 +1,4 @@
-package com.github.kit.validate.core;
+package com.github.liangbaika.validate.core;
 
 /**
  * @author lq

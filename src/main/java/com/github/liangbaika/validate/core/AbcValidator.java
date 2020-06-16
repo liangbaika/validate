@@ -1,7 +1,7 @@
-package com.github.kit.validate.core;
+package com.github.liangbaika.validate.core;
 
-import com.github.kit.validate.annations.AbcValidate;
-import com.github.kit.validate.enums.Check;
+import com.github.liangbaika.validate.annations.AbcValidate;
+import com.github.liangbaika.validate.enums.Check;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

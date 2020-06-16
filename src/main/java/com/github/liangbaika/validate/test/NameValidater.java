@@ -1,6 +1,6 @@
-package com.github.kit.validate.test;
+package com.github.liangbaika.validate.test;
 
-import com.github.kit.validate.core.ParamValidator;
+import com.github.liangbaika.validate.core.ParamValidator;
 import org.springframework.stereotype.Component;
 
 /**

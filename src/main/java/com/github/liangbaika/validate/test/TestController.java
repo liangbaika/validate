@@ -1,8 +1,8 @@
-package com.github.kit.validate.test;
+package com.github.liangbaika.validate.test;
 
-import com.github.kit.validate.annations.ValidateParam;
-import com.github.kit.validate.annations.ValidateParams;
-import com.github.kit.validate.enums.Check;
+import com.github.liangbaika.validate.annations.ValidateParam;
+import com.github.liangbaika.validate.annations.ValidateParams;
+import com.github.liangbaika.validate.enums.Check;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

@@ -1,4 +1,4 @@
-package com.github.kit.validate.utils;
+package com.github.liangbaika.validate.utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

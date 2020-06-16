@@ -1,4 +1,4 @@
-package com.github.kit.validate.annations;
+package com.github.liangbaika.validate.annations;
 
 /**
  * @author lq
@@ -7,7 +7,7 @@ package com.github.kit.validate.annations;
  */
 
 
-import com.github.kit.validate.enums.Check;
+import com.github.liangbaika.validate.enums.Check;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

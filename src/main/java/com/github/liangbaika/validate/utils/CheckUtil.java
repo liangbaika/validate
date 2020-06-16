@@ -1,7 +1,7 @@
-package com.github.kit.validate.utils;
+package com.github.liangbaika.validate.utils;
 
 
-import com.github.kit.validate.core.ParamValidator;
+import com.github.liangbaika.validate.core.ParamValidator;
 
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
@@ -13,7 +13,7 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.github.kit.validate.utils.CheckUtil.RegexPattern.*;
+import static com.github.liangbaika.validate.utils.CheckUtil.RegexPattern.*;
 
 
 /**

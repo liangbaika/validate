@@ -1,7 +1,7 @@
-package com.github.kit.validate.test;
+package com.github.liangbaika.validate.test;
 
-import com.github.kit.validate.annations.AbcValidate;
-import com.github.kit.validate.enums.Check;
+import com.github.liangbaika.validate.annations.AbcValidate;
+import com.github.liangbaika.validate.enums.Check;
 
 /**
  * @author lq

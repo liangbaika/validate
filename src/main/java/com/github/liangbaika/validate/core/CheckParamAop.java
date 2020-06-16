@@ -1,10 +1,10 @@
-package com.github.kit.validate.core;
+package com.github.liangbaika.validate.core;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.github.kit.validate.annations.ValidateParam;
-import com.github.kit.validate.annations.ValidateParams;
-import com.github.kit.validate.exception.ParamsValidException;
+import com.github.liangbaika.validate.annations.ValidateParam;
+import com.github.liangbaika.validate.annations.ValidateParams;
+import com.github.liangbaika.validate.exception.ParamsValidException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -27,11 +27,11 @@ import java.lang.reflect.Method;
 @Component
 public class CheckParamAop {
 
-    @Pointcut("@annotation(com.github.kit.validate.annations.ValidateParam)")
+    @Pointcut("@annotation(com.github.liangbaika.validate.annations.ValidateParam)")
     public void checkParam() {
     }
 
-    @Pointcut("@annotation(com.github.kit.validate.annations.ValidateParams)")
+    @Pointcut("@annotation(com.github.liangbaika.validate.annations.ValidateParams)")
     public void checkParams() {
     }
 

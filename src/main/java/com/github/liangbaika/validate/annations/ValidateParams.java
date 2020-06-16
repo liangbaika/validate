@@ -1,4 +1,4 @@
-package com.github.kit.validate.annations;
+package com.github.liangbaika.validate.annations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

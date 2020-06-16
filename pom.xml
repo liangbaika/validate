@@ -8,9 +8,9 @@
         <version>2.0.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.github.1144388620lq</groupId>
+    <groupId>com.github.liangbaika</groupId>
     <artifactId>validate</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-Release</version>
     <name>validate</name>
     <description>一款与spring框架无缝集成的验证框架</description>
 
@@ -81,9 +81,9 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:https://github.com/1144388620lq/validate.git</connection>
-        <developerConnection>scm:git:https://github.com/1144388620lq/validate.git</developerConnection>
-        <url>https://github.com/1144388620lq/validate.git</url>
+        <connection>scm:git:https://github.com/liangbaika/validate.git</connection>
+        <developerConnection>scm:git:https://github.com/liangbaika/validate.git</developerConnection>
+        <url>https://github.com/liangbaika/validate.git</url>
     </scm>
 
     <profiles>

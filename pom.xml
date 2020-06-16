@@ -12,7 +12,7 @@
     <artifactId>validate</artifactId>
     <version>0.0.2-Release</version>
     <name>validate</name>
-    <description>一款与spring框架无缝集成的验证框架</description>
+    <description>validation tool with spring </description>
 
     <properties>
         <java.version>1.8</java.version>

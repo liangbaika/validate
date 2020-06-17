@@ -7,9 +7,14 @@
 versus springboot Framework for seamless integration of verification framework.
 
 # 注意(attention)
-如果非法参数将抛出ParamsValidException，您应该捕获这个特殊的异常并解决它。
+1 如果非法参数将抛出ParamsValidException，您应该捕获这个特殊的异常并解决它。
 如果采用的是jsr303型即javax-validation验证并且不是用的@AbcValidate注解,则需要自行处理异常。
 对象多级验证时 例如 'user.name' 目前最多支持两级，需求注意。
+
+2 ValidateParam里的express字段使用，一般情况下 可以为空，
+ 当value是Custem时，express=validateBeanName, 有的验证方法需要多个值 逗号分隔即可。
+ 反正注意的是 此express字段和验证的value方法息息相关.
+
 
 if illegal paramas then will throw  ParamsValidException, and you should catch this special exception  
 and resolve it. Object multilevel authentication such as 'user.name' currently supports up to two levels.

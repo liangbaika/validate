@@ -9,7 +9,9 @@ import javax.validation.ConstraintValidatorContext;
 /**
  * 自定义验证注解支持类 jsr303
  *
- * @author lq
+ * @author liangbaikai
+ * @version 0.1.0
+ * @date 2020/5/15 18:14
  */
 public class AbcValidator implements ConstraintValidator<AbcValidate, Object> {
 

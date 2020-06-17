@@ -6,8 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author lq
- * @version 1.0
+ * 验证注解 一般放在 Controoler里的路由方法上使用
+ *
+ * @author liangbaikai
+ * @version 0.1.0
  * @date 2020/5/15 18:16
  */
 @Target(ElementType.METHOD)

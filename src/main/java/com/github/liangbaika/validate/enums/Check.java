@@ -6,8 +6,10 @@ import com.github.liangbaika.validate.utils.CheckUtil;
 import java.util.function.BiFunction;
 
 /**
- * @author lq
- * @version 1.0
+ * 验证方法 枚举
+ *
+ * @author liangbaikai
+ * @version 0.1.0
  * @date 2020/5/15 18:17
  */
 public enum Check {
@@ -71,8 +73,6 @@ public enum Check {
     Chinese("参数必须是汉字", CheckUtil::isChinese),
 
     isUrl("参数必须是url", CheckUtil::isUrl),
-
-//    isCreditCode("参数必须是统一社会信用代码", CheckUtil::isCreditCode),
 
     isChinesePostCode("参数必须是中国邮编", CheckUtil::isChinesePostCode),
 

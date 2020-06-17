@@ -9,6 +9,14 @@ import java.lang.annotation.*;
 
 import static java.lang.annotation.ElementType.*;
 
+/**
+ * 注解 一般用于bean字段 方法上做参数校验 实现了JSR303规范。使用此注解的字段如果非法那么会抛出
+ *
+ * @author liangbaikai
+ * @version 0.1.0
+ * @date 2020/5/15 18:15
+ * @see com.github.liangbaika.validate.exception.ParamsValidException
+ */
 @Target({METHOD, FIELD, CONSTRUCTOR, PARAMETER, ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

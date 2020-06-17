@@ -17,8 +17,10 @@ import static com.github.liangbaika.validate.utils.CheckUtil.RegexPattern.*;
 
 
 /**
- * @author lq
- * @version 1.0
+ * 验证方法
+ *
+ * @author liangbaiakai
+ * @version 0.1.0
  * @date 2020/5/15 18:17
  */
 public class CheckUtil {

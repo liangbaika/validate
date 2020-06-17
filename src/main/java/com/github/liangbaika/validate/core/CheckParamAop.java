@@ -17,10 +17,12 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Method;
 
 /**
+ * AOP切面验证
  * 相比 hibernate-validate相比 此方法更加灵活多样。
+ * 也是验证的核心逻辑
  *
- * @author lq
- * @version 1.0
+ * @author liangbaikai
+ * @version 0.1.0
  * @date 2020/5/15 18:14
  */
 @Aspect

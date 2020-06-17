@@ -1,8 +1,10 @@
 package com.github.liangbaika.validate.core;
 
 /**
- * @author lq
- * @version 1.0
+ * 自定义验证器需要实现此接口,并被spring容器托管
+ *
+ * @author liangbaikai
+ * @version 0.1.0
  * @date 2020/5/27 13:42
  */
 @FunctionalInterface

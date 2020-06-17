@@ -6,7 +6,11 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 /**
- * Spring的ApplicationContext的持有者,可以用静态方法的方式获取spring容器中的bean
+ * Spring容器工具类
+ *
+ * @author liangbaiakai
+ * @version 0.1.0
+ * @date 2020/5/15 18:17
  */
 @Component
 public class SpringContextHolder implements ApplicationContextAware {
@@ -36,25 +40,25 @@ public class SpringContextHolder implements ApplicationContextAware {
 
     private static void assertApplicationContext(String beanName, Class requiredType) {
         if (SpringContextHolder.applicationContext == null) {
-            throw new RuntimeException("applicaitonContext属性为null,请检查是否注入了SpringContextHolder!");
+            throw new RuntimeException("ApplicaitonContext property is NULL, please check whether SpringContextHolder is injected!");
         }
         if (beanName != null) {
             boolean have = applicationContext.containsBean(beanName);
             if (!have) {
-                throw new RuntimeException("无此bean 或者此bean没被spring容器管理 ");
+                throw new RuntimeException("This bean is not managed by the Spring container  ");
             }
         }
         if (requiredType != null) {
             String[] beanNamesForType = applicationContext.getBeanNamesForType(requiredType);
             if (beanNamesForType == null || beanNamesForType.length == 0) {
-                throw new RuntimeException("此bean没被spring容器管理 ");
+                throw new RuntimeException("This bean is not managed by the Spring container  ");
             }
             if (beanNamesForType.length != 1) {
-                throw new RuntimeException("有多个类型的bean 不支持class类型获取 请使用名字获取此bean");
+                throw new RuntimeException("Class type fetching is not supported for multiple types of beans. Use the name to get this bean");
             }
             boolean have = applicationContext.containsBean(beanNamesForType[0]);
             if (!have) {
-                throw new RuntimeException("此bean没被spring容器管理 ");
+                throw new RuntimeException("This bean is not managed by the Spring container ");
             }
         }
 

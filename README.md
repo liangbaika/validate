@@ -1,12 +1,18 @@
 # validate-springboot-starter   最新版本 0.4.0
 
-# maven 中央仓库
+#  中央仓库
 ```
+        maven 
+        
         <dependency>
             <groupId>com.github.liangbaika</groupId>
             <artifactId>validate-springboot-starter</artifactId>
             <version>{latest}</version>
         </dependency>
+        
+        gradle
+        
+        compile group: 'com.github.liangbaika', name: 'validate-springboot-starter', version: '0.4.0'
 ```
 
 

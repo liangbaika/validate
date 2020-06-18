@@ -74,6 +74,8 @@ public enum Check {
 
     isUrl("参数必须是url", CheckUtil::isUrl),
 
+    isISBN("参数必须是一个书籍ISBN编号", CheckUtil::isISBN),
+
     isChinesePostCode("参数必须是中国邮编", CheckUtil::isChinesePostCode),
 
     isPlateNumber("参数必须是中国车牌号", CheckUtil::isPlateNumber),

@@ -908,8 +908,8 @@ public class CheckUtil {
      *
      * @param value
      * @param regEx
-     * @since 0.5.0
      * @return
+     * @since 0.5.0
      */
     public static Boolean isISBN(Object value, String regEx) {
         if (value == null) {
@@ -1003,26 +1003,12 @@ public class CheckUtil {
          * 英文字母 、数字和下划线
          */
         public final static Pattern GENERAL = Pattern.compile("^\\w+$");
-        /**
-         * 数字
-         */
-        public final static Pattern NUMBERS = Pattern.compile("\\d+");
-        /**
-         * 字母
-         */
-        public final static Pattern WORD = Pattern.compile("[a-zA-Z]+");
-        /**
-         * 单个中文汉字
-         */
-        public final static Pattern CHINESE = Pattern.compile("[\u4E00-\u9FFF]");
+
         /**
          * 中文汉字
          */
         public final static Pattern CHINESES = Pattern.compile("[\u4E00-\u9FFF]+");
-        /**
-         * 分组
-         */
-        public final static Pattern GROUP_VAR = Pattern.compile("\\$(\\d+)");
+
         /**
          * IP v4
          */
@@ -1035,11 +1021,7 @@ public class CheckUtil {
          * 货币
          */
         public final static Pattern MONEY = Pattern.compile("^(\\d+(?:\\.\\d+)?)$");
-        /**
-         * 邮件，符合RFC 5322规范，正则来自：http://emailregex.com/
-         */
-        // public final static Pattern EMAIL = Pattern.compile("(\\w|.)+@\\w+(\\.\\w+){1,2}");
-        public final static Pattern EMAIL = Pattern.compile("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)])", Pattern.CASE_INSENSITIVE);
+
         /**
          * 移动电话
          */
@@ -1056,14 +1038,8 @@ public class CheckUtil {
          * 生日
          */
         public final static Pattern BIRTHDAY = Pattern.compile("^(\\d{2,4})([/\\-.年]?)(\\d{1,2})([/\\-.月]?)(\\d{1,2})日?$");
-        /**
-         * URL
-         */
-        public final static Pattern URL = Pattern.compile("[a-zA-z]+://[^\\s]*");
-        /**
-         * Http URL
-         */
-        public final static Pattern URL_HTTP = Pattern.compile("(https://|http://)?([\\w-]+\\.)+[\\w-]+(:\\d+)*(/[\\w- ./?%&=]*)?");
+
+
         /**
          * 中文字、英文字母、数字和下划线
          */
@@ -1086,14 +1062,7 @@ public class CheckUtil {
          * MAC地址正则
          */
         public static final Pattern MAC_ADDRESS = Pattern.compile("((?:[A-F0-9]{1,2}[:-]){5}[A-F0-9]{1,2})|(?:0x)(\\d{12})(?:.+ETHER)", Pattern.CASE_INSENSITIVE);
-        /**
-         * 16进制字符串
-         */
-        public static final Pattern HEX = Pattern.compile("^[a-f0-9]+$", Pattern.CASE_INSENSITIVE);
-        /**
-         * 时间正则
-         */
-        public static final Pattern TIME = Pattern.compile("\\d{1,2}:\\d{1,2}(:\\d{1,2})?");
+
         /**
          * 中国车牌号码（兼容新能源车牌）
          */
@@ -1124,7 +1093,4 @@ public class CheckUtil {
 
     }
 
-    public static void main(String[] args) {
-        isISBN("sa", null);
-    }
 }

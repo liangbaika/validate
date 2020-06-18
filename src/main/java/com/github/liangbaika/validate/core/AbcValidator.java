@@ -22,6 +22,11 @@ public class AbcValidator implements ConstraintValidator<AbcValidate, Object> {
     public AbcValidator() {
     }
 
+    /**
+     * jsr303 初始化
+     *
+     * @param constraintAnnotation
+     */
     @Override
     public void initialize(AbcValidate constraintAnnotation) {
         required = constraintAnnotation.required();
@@ -29,6 +34,13 @@ public class AbcValidator implements ConstraintValidator<AbcValidate, Object> {
         express = constraintAnnotation.express();
     }
 
+    /**
+     * jsr303 验证
+     *
+     * @param value
+     * @param context
+     * @return
+     */
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         if (required) {

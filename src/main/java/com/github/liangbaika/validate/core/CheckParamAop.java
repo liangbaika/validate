@@ -201,12 +201,10 @@ public class CheckParamAop {
     }
 
 
-    static class SampleResult {
+    private static class SampleResult {
         private String msg;
         private Boolean pass;
 
-        public SampleResult() {
-        }
 
         public SampleResult(String msg, Boolean pass) {
             this.msg = msg;
@@ -217,17 +215,11 @@ public class CheckParamAop {
             return msg;
         }
 
-        public void setMsg(String msg) {
-            this.msg = msg;
-        }
 
         public Boolean getPass() {
             return pass;
         }
 
-        public void setPass(Boolean pass) {
-            this.pass = pass;
-        }
     }
 
 }

@@ -2,6 +2,7 @@ package com.github.liangbaika.validate.annations;
 
 /**
  * 验证注解 一般放在 Controoler里的路由方法上使用
+ * 如果字段过多 建议使用自定义方式
  *
  * @author liangbaikai
  * @version 0.1.0
@@ -47,6 +48,7 @@ public @interface ValidateParam {
      * 参数类型取值举例：
      * java.lang.String
      */
+    @Deprecated
     String argType() default "";
 
 

@@ -1,4 +1,4 @@
-# validate-springboot-starter   最新版本 0.4.0
+# validate-springboot-starter  
 
 #  中央仓库
 ```

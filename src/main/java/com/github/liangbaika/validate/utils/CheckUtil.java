@@ -904,6 +904,21 @@ public class CheckUtil {
     }
 
     /**
+     * 验证是否是图书的合法的ISBN号码 包括10或者13位的ISBN
+     *
+     * @param value
+     * @param regEx
+     * @since 0.5.0
+     * @return
+     */
+    public static Boolean isISBN(Object value, String regEx) {
+        if (value == null) {
+            return Boolean.FALSE;
+        }
+        return RegexPattern.ISBN_REGEX.matcher(String.valueOf(value)).matches();
+    }
+
+    /**
      * 验证是否为UUID
      * 包括带横线标准格式和不带横线的简单模式
      *
@@ -1053,6 +1068,12 @@ public class CheckUtil {
          * 中文字、英文字母、数字和下划线
          */
         public final static Pattern GENERAL_WITH_CHINESE = Pattern.compile("^[\u4E00-\u9FFF\\w]+$");
+
+        /**
+         * ISBN-10 OR  ISBN-13
+         */
+        public final static Pattern ISBN_REGEX = Pattern.compile("^(?:ISBN(?:-1[03])?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$");
+
         /**
          * UUID
          */
@@ -1101,5 +1122,9 @@ public class CheckUtil {
          */
         public static final Pattern NUMBER_CODE = Pattern.compile("\\d+(\\.\\d+)?");
 
+    }
+
+    public static void main(String[] args) {
+        isISBN("sa", null);
     }
 }

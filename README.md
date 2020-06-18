@@ -21,7 +21,7 @@
 versus springboot Framework for seamless integration of verification framework.
 
 # 注意(attention)
-1 如果非法参数将抛出ParamsValidException，您应该捕获这个特殊的异常并解决它。
+1 如果非法参数将抛出ParamsInValidException，您应该捕获这个特殊的异常并解决它。
 如果采用的是jsr303型即javax-validation验证并且不是用的@AbcValidate注解,则需要自行处理异常。
 对象多级验证时 例如 'user.name' 目前最多支持两级，需求注意。
 
@@ -239,9 +239,9 @@ public class NameValidater implements ParamValidator {
  
      private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
  
-     @ExceptionHandler({com.github.liangbaika.validate.exception.ParamsValidException .class})
+     @ExceptionHandler({com.github.liangbaika.validate.exception.ParamsInValidException .class})
      @ResponseBody
-     public Results handleParamsValidException(com.github.liangbaika.validate.exception.ParamsValidException  e) {
+     public Results handleParamsValidException(com.github.liangbaika.validate.exception.ParamsInValidException  e) {
          return Results.error(new ErrorCode(ErrorCode.PARAMA_ERROR.getCode(), "参数错误 " + e.getMessage()));
      }
  }

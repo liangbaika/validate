@@ -4,7 +4,7 @@ package com.github.liangbaika.validate.core;
 import com.alibaba.fastjson.JSONObject;
 import com.github.liangbaika.validate.annations.ValidateParam;
 import com.github.liangbaika.validate.annations.ValidateParams;
-import com.github.liangbaika.validate.exception.ParamsValidException;
+import com.github.liangbaika.validate.exception.ParamsInValidException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -43,7 +43,7 @@ public class CheckParamAop {
         // 参数校验
         SampleResult sampleResult = doCheck(point, false);
         if (!sampleResult.getPass()) {
-            throw new ParamsValidException(sampleResult.getMsg());
+            throw new ParamsInValidException(sampleResult.getMsg());
         }
         // 通过校验，继续执行原有方法
         obj = point.proceed();
@@ -57,7 +57,7 @@ public class CheckParamAop {
         // 参数校验
         SampleResult sampleResult = doCheck(point, true);
         if (!sampleResult.getPass()) {
-            throw new ParamsValidException(sampleResult.getMsg());
+            throw new ParamsInValidException(sampleResult.getMsg());
         }
         // 通过校验，继续执行原有方法
         obj = point.proceed();

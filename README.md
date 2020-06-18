@@ -3,7 +3,6 @@
 #  中央仓库
 ```
         maven 
-        
         <dependency>
             <groupId>com.github.liangbaika</groupId>
             <artifactId>validate-springboot-starter</artifactId>
@@ -11,7 +10,6 @@
         </dependency>
         
         gradle
-        
         compile group: 'com.github.liangbaika', name: 'validate-springboot-starter', version: '0.4.0'
 ```
 
@@ -32,17 +30,19 @@ versus springboot Framework for seamless integration of verification framework.
 
 3 用到了JDK8的新特性,因此JDK版本需要大于等于 1.8
 
+4 依赖目前只使用到了springboot-starter-aop,fastjson,javax-validtion.
+
 if illegal paramas then will throw  ParamsValidException, and you should catch this special exception  
 and resolve it. Object multilevel authentication such as 'user.name' currently supports up to two levels.
  
 JDK>=1.8
  
 # 优点（advantages）
-集成了很多的验证，比如手机号验证，正则验证，邮箱，数字，小数，车牌号，身份证，长度，url等常用验证。
+集成了很多的验证，比如手机号验证，正则验证，邮箱，数字，小数，车牌号，身份证，长度，url, ISBN 等常用验证。
 和javax validation 相比,我们的bean可以重复使用，具有更高的灵活性,只要是和验证相关的，可以做到和业务代码完全解耦。
 
 Integrated with a lot of authentication, such as phone number authentication, regular authentication, email,
-Numbers, decimals, license plate number, ID card, length, URL, and so on.Our beans are reusable and have more 
+Numbers, decimals, license plate number, ID card, length, URL,ISBN and so on.Our beans are reusable and have more 
 flexibility than Javax Validation.
 
 # （自定义）custom

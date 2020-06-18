@@ -51,7 +51,7 @@ public class CheckUtil {
     public static Boolean customValidate(Object value, String beanName) {
         ParamValidator bean = SpringContextHolder.getBean(beanName);
         if (bean == null) {
-            throw new IllegalArgumentException("非法的bean名称，无法在spring容器里找到此bean");
+            throw new IllegalArgumentException("invalied bean, this bean can not  found in spring context");
         }
         Function<Object, Boolean> func = bean::validate;
         return func.apply(value);
@@ -175,10 +175,12 @@ public class CheckUtil {
         if (isNull(value, express)) {
             return Boolean.FALSE;
         }
-        if (value instanceof String) {      // 通常json格式参数，都是以字符串类型传递，优先判断
+        if (value instanceof String) {
+            // 通常json格式参数，都是以字符串类型传递，优先判断
             // 验证参数，不能处理掉所有异常的符号
             // String v = ((String) value).trim().replaceAll("[-/\\s]", "");
-            String v = ((String) value); //.replaceAll("[-/]", "");
+            //.replaceAll("[-/]", "");
+            String v = ((String) value);
             try {
                 LocalDate.parse(v, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 return Boolean.TRUE;
@@ -206,8 +208,10 @@ public class CheckUtil {
         if (isNull(value, express)) {
             return Boolean.FALSE;
         }
-        if (value instanceof String) {   // 通常json格式参数，都是以字符串类型传递，优先判断
-            String v = ((String) value); //.replaceAll("[-/]", "");  // 验证参数，不能处理掉所有异常的符号
+        // 通常json格式参数，都是以字符串类型传递，优先判断
+        if (value instanceof String) {
+            //.replaceAll("[-/]", "");  // 验证参数，不能处理掉所有异常的符号
+            String v = ((String) value);
             try {
                 LocalDateTime.parse(v, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                 return Boolean.TRUE;
@@ -297,9 +301,12 @@ public class CheckUtil {
         if (isNull(value, express)) {
             return Boolean.FALSE;
         }
-        if (value instanceof String) {   // 通常json格式参数，都是以字符串类型传递，优先判断
-            String v = ((String) value); // .replaceAll("[-/]", "");  // 验证参数，不能处理掉所有异常的符号
-            if (v.length() <= 10) { // 日期
+        // 通常json格式参数，都是以字符串类型传递，优先判断
+        if (value instanceof String) {
+            // .replaceAll("[-/]", "");   验证参数，不能处理掉所有异常的符号
+            String v = ((String) value);
+            if (v.length() <= 10) {
+                // 日期
                 try {
                     LocalDate ld = LocalDate.parse(v, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                     return LocalDate.now().isBefore(ld);
@@ -347,8 +354,10 @@ public class CheckUtil {
         if (isNull(value, express)) {
             return Boolean.FALSE;
         }
-        if (value instanceof String) {   // 通常json格式参数，都是以字符串类型传递，优先判断
-            String v = ((String) value); // .replaceAll("[-/]", "");  // 验证参数，不能处理掉所有异常的符号
+        // 通常json格式参数，都是以字符串类型传递，优先判断
+        if (value instanceof String) {
+            // .replaceAll("[-/]", "");  // 验证参数，不能处理掉所有异常的符号
+            String v = ((String) value);
             try {
                 LocalDate ld = LocalDate.parse(v, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 return LocalDate.now().equals(ld);
@@ -379,12 +388,7 @@ public class CheckUtil {
             return Boolean.FALSE;
         }
         if (value instanceof String) {
-            String regEx = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
-            Pattern p = Pattern.compile(regEx);
-            Matcher m = p.matcher((String) value);
-            if (m.matches()) {
-                return Boolean.TRUE;
-            }
+            return EMAIL.matcher(String.valueOf(value)).matches();
         }
         return Boolean.FALSE;
     }
@@ -472,18 +476,19 @@ public class CheckUtil {
         if (null == rangeStr || "".equals(rangeStr)) {
             return Boolean.FALSE;
         }
+        String spliter = ",";
         if (value instanceof String) {
             Integer begin = null;
             Integer end = null;
-            if (!rangeStr.contains(",")) {
+            if (!rangeStr.contains(spliter)) {
                 begin = 0;
             } else {
-                begin = Integer.valueOf(rangeStr.split(",")[0]);
+                begin = Integer.valueOf(rangeStr.split(spliter)[0]);
             }
             if (begin == 0) {
                 end = Integer.valueOf(rangeStr);
             } else {
-                end = Integer.valueOf(rangeStr.split(",")[1]);
+                end = Integer.valueOf(rangeStr.split(spliter)[1]);
             }
             Integer v = ((String) value).length();
             return begin <= v && v <= end;
@@ -919,6 +924,38 @@ public class CheckUtil {
     }
 
     /**
+     * 是否是银行卡号
+     * Luhn算法来验证:
+     * 1、从卡号最后一位数字开始，逆向将奇数位(1、3、5等等)相加。
+     * 2、从卡号最后一位数字开始，逆向将偶数位数字，先乘以2（如果乘积为两位数，则将其减去9），再求和。
+     * 3、将奇数位总和加上偶数位总和，结果应该可以被10整除。
+     *
+     * @param value
+     * @return
+     */
+    public static Boolean isBankNumber(Object value, String regEx) {
+        if (value == null) {
+            return Boolean.FALSE;
+        }
+        String number = String.valueOf(value);
+        if (number.length() != 16 && number.length() != 19) return false;
+        if (!number.matches("\\d+")) return false;
+
+        char digits[] = number.toCharArray();
+        int len = number.length();
+        int numSum = 0;
+        for (int i = len - 1, j = 1; i >= 0; i--, j++) {
+            int _value = digits[i] - '0';
+            if (j % 2 == 0) {
+                _value *= 2;
+                if (_value > 9) _value -= 9;
+            }
+            numSum += _value;
+        }
+        return numSum % 10 == 0;
+    }
+
+    /**
      * 验证是否为UUID
      * 包括带横线标准格式和不带横线的简单模式
      *
@@ -999,6 +1036,11 @@ public class CheckUtil {
     }
 
     public static class RegexPattern {
+        /**
+         * 邮箱
+         */
+        public final static Pattern EMAIL = Pattern.compile("^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$");
+
         /**
          * 英文字母 、数字和下划线
          */

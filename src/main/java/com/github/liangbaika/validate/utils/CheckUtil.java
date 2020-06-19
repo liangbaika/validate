@@ -176,10 +176,6 @@ public class CheckUtil {
             return Boolean.FALSE;
         }
         if (value instanceof String) {
-            // 通常json格式参数，都是以字符串类型传递，优先判断
-            // 验证参数，不能处理掉所有异常的符号
-            // String v = ((String) value).trim().replaceAll("[-/\\s]", "");
-            //.replaceAll("[-/]", "");
             String v = ((String) value);
             try {
                 LocalDate.parse(v, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -216,12 +212,6 @@ public class CheckUtil {
                 LocalDateTime.parse(v, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                 return Boolean.TRUE;
             } catch (Exception e) {
-                /*try {
-                    LocalDateTime.parse(v, DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-                    return Boolean.TRUE;
-                } catch (Exception e1) {
-                    return Boolean.FALSE;
-                }*/
                 return Boolean.FALSE;
             }
         }
@@ -264,12 +254,6 @@ public class CheckUtil {
                 LocalDateTime ldt = LocalDateTime.parse(v, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                 return LocalDateTime.now().isAfter(ldt);
             } catch (Exception e) {
-                /*try {
-                    LocalDateTime ldt = LocalDateTime.parse(v, DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-                    return LocalDateTime.now().isAfter(ldt);
-                } catch (Exception e1) {
-                    return Boolean.FALSE;
-                }*/
                 return Boolean.FALSE;
             }
         }
@@ -318,12 +302,6 @@ public class CheckUtil {
                 LocalDateTime ldt = LocalDateTime.parse(v, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                 return LocalDateTime.now().isBefore(ldt);
             } catch (Exception e) {
-                /*try {
-                    LocalDateTime ldt = LocalDateTime.parse(v, DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-                    return LocalDateTime.now().isBefore(ldt);
-                } catch (Exception e1) {
-                    return Boolean.FALSE;
-                }*/
                 return Boolean.FALSE;
             }
         }
@@ -938,19 +916,25 @@ public class CheckUtil {
             return Boolean.FALSE;
         }
         String number = String.valueOf(value);
-        if (number.length() != 16 && number.length() != 19) return false;
-        if (!number.matches("\\d+")) return false;
+        if (number.length() != 16 && number.length() != 19) {
+            return false;
+        }
+        if (!number.matches("\\d+")) {
+            return false;
+        }
 
         char digits[] = number.toCharArray();
         int len = number.length();
         int numSum = 0;
         for (int i = len - 1, j = 1; i >= 0; i--, j++) {
-            int _value = digits[i] - '0';
+            int value0 = digits[i] - '0';
             if (j % 2 == 0) {
-                _value *= 2;
-                if (_value > 9) _value -= 9;
+                value0 *= 2;
+                if (value0 > 9) {
+                    value0 -= 9;
+                }
             }
-            numSum += _value;
+            numSum += value0;
         }
         return numSum % 10 == 0;
     }
@@ -994,7 +978,8 @@ public class CheckUtil {
             int month = Integer.parseInt(matcher.group(3));
             int day = Integer.parseInt(matcher.group(5));
             // 验证年
-            int thisYear = new Date().getYear();
+            Calendar calendar = Calendar.getInstance();
+            int thisYear = calendar.get(Calendar.YEAR);
             if (year < 1900 || year > thisYear) {
                 return false;
             }

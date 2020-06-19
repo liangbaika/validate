@@ -9,5 +9,11 @@ package com.github.liangbaika.validate.core;
  */
 @FunctionalInterface
 public interface ParamValidator {
+    /**
+     * 自定义实现方法  需要用户自己实现 并让此实现类被spring 容器管理
+     *
+     * @param value 值
+     * @return
+     */
     Boolean validate(Object value);
 }

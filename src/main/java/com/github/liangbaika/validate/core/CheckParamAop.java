@@ -194,7 +194,6 @@ public class CheckParamAop {
                         .getDeclaredMethod(joinPoint.getSignature().getName(),
                                 method.getParameterTypes());
             } catch (SecurityException | NoSuchMethodException e) {
-                // log.error("" + e);
             }
         }
         return method;

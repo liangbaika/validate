@@ -11,7 +11,7 @@
         </dependency>
         
         gradle
-        compile group: 'com.github.liangbaika', name: 'validate-springboot-starter', version: '0.4.0'
+        compile group: 'com.github.liangbaika', name: 'validate-springboot-starter', version: '{latest}'
 ```
 
 
@@ -63,7 +63,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 /**
- * @author lq
+ * @author liangbaikai
  * @version 1.0
  * @date 2020/6/16 11:56
  */
@@ -155,7 +155,7 @@ import com.github.liangbaika.validate.annations.AbcValidate;
 import com.github.liangbaika.validate.enums.Check;
 
 /**
- * @author lq
+ * @author liangbaikai
  * @version 1.0
  * @date 2020/6/16 11:59
  */
@@ -208,7 +208,7 @@ import org.springframework.stereotype.Component;
 /**
  * 自定义验证器 模拟复杂逻辑校验
  *
- * @author lq
+ * @author liangbaikai
  * @version 1.0
  * @date 2020/6/16 12:01
  */

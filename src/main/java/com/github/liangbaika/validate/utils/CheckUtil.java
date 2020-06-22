@@ -25,20 +25,6 @@ import static com.github.liangbaika.validate.utils.CheckUtil.RegexPattern.*;
  */
 public class CheckUtil {
 
-    /**
-     * 判断value == null
-     *
-     * @param value   字段值
-     * @param express 这里不需要，只是为了参数统一
-     * @return true or false
-     */
-    public static Boolean isNull(Object value, String express) {
-        if (null != value) {
-            return Boolean.FALSE;
-        }
-        return Boolean.TRUE;
-    }
-
 
     /**
      * 此方法比较特殊 用于自定义验证逻辑
@@ -55,6 +41,21 @@ public class CheckUtil {
         }
         Function<Object, Boolean> func = bean::validate;
         return func.apply(value);
+    }
+
+
+    /**
+     * 判断value == null
+     *
+     * @param value   字段值
+     * @param express 这里不需要，只是为了参数统一
+     * @return true or false
+     */
+    public static Boolean isNull(Object value, String express) {
+        if (null != value) {
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
     }
 
 
@@ -175,10 +176,13 @@ public class CheckUtil {
         if (isNull(value, express)) {
             return Boolean.FALSE;
         }
+        if (express == null || "".equals(express)) {
+            express = "yyyy-MM-dd";
+        }
         if (value instanceof String) {
             String v = ((String) value);
             try {
-                LocalDate.parse(v, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                LocalDate.parse(v, DateTimeFormatter.ofPattern(express));
                 return Boolean.TRUE;
             } catch (Exception e) {
                 return Boolean.FALSE;
@@ -204,12 +208,15 @@ public class CheckUtil {
         if (isNull(value, express)) {
             return Boolean.FALSE;
         }
+        if (express == null || "".equals(express)) {
+            express = "yyyy-MM-dd HH:mm:ss";
+        }
         // 通常json格式参数，都是以字符串类型传递，优先判断
         if (value instanceof String) {
             //.replaceAll("[-/]", "");  // 验证参数，不能处理掉所有异常的符号
             String v = ((String) value);
             try {
-                LocalDateTime.parse(v, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                LocalDateTime.parse(v, DateTimeFormatter.ofPattern(express));
                 return Boolean.TRUE;
             } catch (Exception e) {
                 return Boolean.FALSE;
@@ -240,18 +247,13 @@ public class CheckUtil {
         if (isNull(value, express)) {
             return Boolean.FALSE;
         }
+        if (express == null || "".equals(express)) {
+            express = "yyyy-MM-dd HH:mm:ss";
+        }
         if (value instanceof String) {   // 通常json格式参数，都是以字符串类型传递，优先判断
             String v = ((String) value); //.replaceAll("[-/]", "");  // 验证参数，不能处理掉所有异常的符号
-            if (v.length() <= 10) { // 日期
-                try {
-                    LocalDate ld = LocalDate.parse(v, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                    return LocalDate.now().isAfter(ld);
-                } catch (Exception e) {
-                    return Boolean.FALSE;
-                }
-            }
             try {
-                LocalDateTime ldt = LocalDateTime.parse(v, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                LocalDateTime ldt = LocalDateTime.parse(v, DateTimeFormatter.ofPattern(express));
                 return LocalDateTime.now().isAfter(ldt);
             } catch (Exception e) {
                 return Boolean.FALSE;
@@ -285,21 +287,15 @@ public class CheckUtil {
         if (isNull(value, express)) {
             return Boolean.FALSE;
         }
+        if (express == null || "".equals(express)) {
+            express = "yyyy-MM-dd HH:mm:ss";
+        }
         // 通常json格式参数，都是以字符串类型传递，优先判断
         if (value instanceof String) {
             // .replaceAll("[-/]", "");   验证参数，不能处理掉所有异常的符号
             String v = ((String) value);
-            if (v.length() <= 10) {
-                // 日期
-                try {
-                    LocalDate ld = LocalDate.parse(v, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                    return LocalDate.now().isBefore(ld);
-                } catch (Exception e) {
-                    return Boolean.FALSE;
-                }
-            }
             try {
-                LocalDateTime ldt = LocalDateTime.parse(v, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                LocalDateTime ldt = LocalDateTime.parse(v, DateTimeFormatter.ofPattern(express));
                 return LocalDateTime.now().isBefore(ldt);
             } catch (Exception e) {
                 return Boolean.FALSE;
@@ -332,22 +328,25 @@ public class CheckUtil {
         if (isNull(value, express)) {
             return Boolean.FALSE;
         }
+        if (express == null || "".equals(express)) {
+            express = "yyyy-MM-dd HH:mm:ss";
+        }
         // 通常json格式参数，都是以字符串类型传递，优先判断
         if (value instanceof String) {
             // .replaceAll("[-/]", "");  // 验证参数，不能处理掉所有异常的符号
             String v = ((String) value);
             try {
-                LocalDate ld = LocalDate.parse(v, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                LocalDate ld = LocalDate.parse(v, DateTimeFormatter.ofPattern(express));
                 return LocalDate.now().equals(ld);
             } catch (Exception e) {
                 return Boolean.FALSE;
             }
         }
         if (value instanceof Date) {
-            return new Date().equals((Date) value);
+            return new Date().equals(value);
         }
         if (value instanceof LocalDate) {
-            return LocalDate.now().equals((LocalDate) value);
+            return LocalDate.now().equals(value);
         }
         return Boolean.FALSE;
     }

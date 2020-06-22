@@ -23,7 +23,7 @@ versus springboot Framework for seamless integration of verification framework.
 # 注意(attention)
 1 如果非法参数将抛出ParamsInValidException，您应该捕获这个特殊的异常并解决它。
 如果采用的是jsr303型即javax-validation验证并且不是用的@AbcValidate注解,则需要自行处理异常。
-对象多级验证时 支持无限级 如 'user.tokenObj.value'
+对象多级验证时 支持无限级 如 'user.tokenObj.value' （0.7版本开始支持无限级 之前只支持2级）
 
 2 ValidateParam里的express字段使用，一般情况下 可以为空，
  当value是Custem时，express=validateBeanName, 有的验证方法需要多个值 逗号分隔即可。

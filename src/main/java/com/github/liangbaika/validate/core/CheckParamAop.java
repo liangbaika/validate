@@ -1,7 +1,6 @@
 package com.github.liangbaika.validate.core;
 
 
-import com.alibaba.fastjson.JSONObject;
 import com.github.liangbaika.validate.annations.ValidateParam;
 import com.github.liangbaika.validate.annations.ValidateParams;
 import com.github.liangbaika.validate.exception.ParamsInValidException;
@@ -14,6 +13,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -168,10 +168,17 @@ public class CheckParamAop {
         }
         //从对象中取值
         if (argName.contains(".")) {
-            argName = argName.split("\\.")[1];
-            JSONObject jo = (JSONObject) JSONObject.toJSON(value);
-            // 从实体对象中取值
-            value = jo.get(argName);
+            //从实体对象中取值 无限级  如 user.tokenObj.value
+            String[] argNames = argName.split("\\.");
+            try {
+                value = getObjValue(1, value, argNames);
+            } catch (NoSuchMethodException e) {
+                throw new ParamsInValidException("can not  found getter method");
+            } catch (InvocationTargetException e) {
+                throw new ParamsInValidException(" invoke getter method error");
+            } catch (IllegalAccessException e) {
+                throw new ParamsInValidException(" when get filed value IllegalAccessException occured");
+            }
         }
         return value;
     }
@@ -197,6 +204,34 @@ public class CheckParamAop {
             }
         }
         return method;
+    }
+
+    /**
+     * 对应字段必须要有对应的getter方法
+     * 反射获取值 无限级
+     *
+     * @param index    参数索引  应该从1开始
+     * @param value    对象
+     * @param argNames 字段名数组
+     * @return
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     */
+    private static Object getObjValue(int index, Object value, String[] argNames) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+
+        assert index > 0;
+        assert argNames != null;
+        if (index >= argNames.length || value == null) {
+            return value;
+        }
+
+        String tempName = argNames[index];
+        String filedMethodName = "get" + tempName.substring(0, 1).toUpperCase() + tempName.substring(1, tempName.length());
+        Method getterMethod = value.getClass().getMethod(filedMethodName);
+        Object tempValue = getterMethod.invoke(value);
+
+        return getObjValue(index + 1, tempValue, argNames);
     }
 
 

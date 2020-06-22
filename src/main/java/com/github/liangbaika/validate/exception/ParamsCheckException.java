@@ -8,7 +8,7 @@ package com.github.liangbaika.validate.exception;
  * @date 2020/5/15 18:14
  * @since 0.5.0
  */
-public class ParamsCheckException extends RuntimeException {
+public class ParamsCheckException extends ParamsInValidException {
 
     public ParamsCheckException() {
     }

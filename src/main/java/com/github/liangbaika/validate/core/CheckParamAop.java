@@ -3,6 +3,7 @@ package com.github.liangbaika.validate.core;
 
 import com.github.liangbaika.validate.annations.ValidateParam;
 import com.github.liangbaika.validate.annations.ValidateParams;
+import com.github.liangbaika.validate.exception.ParamsCheckException;
 import com.github.liangbaika.validate.exception.ParamsInValidException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -173,11 +174,11 @@ public class CheckParamAop {
             try {
                 value = getObjValue(1, value, argNames);
             } catch (NoSuchMethodException e) {
-                throw new ParamsInValidException("can not  found getter method");
+                throw new ParamsCheckException("can not  found getter method");
             } catch (InvocationTargetException e) {
-                throw new ParamsInValidException(" invoke getter method error");
+                throw new ParamsCheckException(" invoke getter method error");
             } catch (IllegalAccessException e) {
-                throw new ParamsInValidException(" when get filed value IllegalAccessException occured");
+                throw new ParamsCheckException(" when get filed value IllegalAccessException occured");
             }
         }
         return value;

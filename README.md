@@ -238,40 +238,37 @@ public class NameValidater implements ParamValidator {
 
 ```
 
-#  错误处理( resolve error)
+#  参数异常错误统一处理( resolve error)
  ```
  @ControllerAdvice
  public class GlobalExceptionHandler {
  
      private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
  
-     @ExceptionHandler({com.github.liangbaika.validate.exception.ParamsInValidException .class})
-     @ResponseBody
-     public Results handleParamsValidException(com.github.liangbaika.validate.exception.ParamsInValidException  e) {
-         return Results.error(new ErrorCode(ErrorCode.PARAMA_ERROR.getCode(), "参数错误 " + e.getMessage()));
-     }
+       @ExceptionHandler({ParamsInValidException.class, MethodArgumentNotValidException.class})
+       @ResponseBody
+       public RestResponse handleParamsValidException(Exception e) {
+           if (e instanceof ParamsInValidException) {
+               return RestResponse.error(new ErrorCode(ErrorCode.PARAMA_ERROR.getCode(),  e.getMessage()));
+           } else {
+                //jsr303
+               BindingResult bindingResult = ((MethodArgumentNotValidException) e).getBindingResult();
+               List<ObjectError> allErrors = bindingResult.getAllErrors();
+               StringBuilder errMsg = new StringBuilder();
+               for (ObjectError allError : allErrors) {
+                   FieldError fieldError = (FieldError) allError;
+                   String field = fieldError.getField();
+                   String defaultMessage = fieldError.getDefaultMessage();
+                   errMsg.append(field + ":" + defaultMessage + ";  ");
+               }
+               return RestResponse.error(new ErrorCode(ErrorCode.PARAMA_ERROR.getCode(), errMsg.toString()));
+           }
+       }
      
     
  }
 ```
 
-# 处理jsr 303异常
-```
-       演示 贴出核心代码
-       
-        if (e instanceof MethodArgumentNotValidException) {
-            BindingResult bindingResult = ((MethodArgumentNotValidException) e).getBindingResult();
-            List<ObjectError> allErrors = bindingResult.getAllErrors();
-            StringBuilder errMsg = new StringBuilder();
-            for (ObjectError allError : allErrors) {
-                FieldError fieldError = (FieldError) allError;
-                String field = fieldError.getField();
-                String defaultMessage = fieldError.getDefaultMessage();
-                errMsg.append(field + ":" + defaultMessage + ";  ");
-            }
-            return RestResponse.error(new ErrorCode(ErrorCode.PARAMA_ERROR.getCode(), errMsg.toString()));
-        } 
-```
 
 # 感谢与建议 （Thanks and Suggestions）
 此项目采用 Apache License协议, 欢迎大家使用或提出建议或贡献代码 

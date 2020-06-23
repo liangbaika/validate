@@ -2,7 +2,9 @@ package com.github.liangbaika.validate.utils;
 
 
 import com.github.liangbaika.validate.core.ParamValidator;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.time.LocalDate;
@@ -700,6 +702,135 @@ public class CheckUtil {
         return !isEqual(value, express);
     }
 
+    /**
+     * 判断文件大小   单位 KB
+     * File对象  MultipartFile 对象 或对应的集合 数组都可以
+     *
+     * @param value
+     * @param express 大小值 默认10M
+     * @return
+     */
+    public static Boolean isSuitableFileLength(Object value, String express) {
+        if (value == null || value.equals("")) {
+            return Boolean.FALSE;
+        }
+
+        List<Long> lens = new ArrayList();
+        if (value instanceof File || value instanceof MultipartFile) {
+            judgeLen(value, lens);
+        }
+        if (value instanceof Collection) {
+            ((Collection) value).forEach(e -> {
+                judgeLen(e, lens);
+            });
+        }
+        if (value.getClass().isArray()) {
+            Object[] objs = (Object[]) value;
+            for (int i = 0; i < objs.length; i++) {
+                Object tmpvalue = objs[i];
+                judgeLen(tmpvalue, lens);
+            }
+        }
+        if (lens.size() == 0) {
+            return Boolean.FALSE;
+        }
+
+        return realJudgeFileLen(lens, express);
+
+    }
+
+    private static Boolean realJudgeFileLen(List<Long> lens, String express) {
+        long defaultLen = DEFAULT_FILE_SIZE;
+        if (express != null && !"".equals(express)) {
+            defaultLen = Long.parseLong(express);
+        }
+
+        // 单位 KB
+        for (Long len : lens) {
+            if (len / 1024 > defaultLen) {
+                return Boolean.FALSE;
+            }
+        }
+        return Boolean.TRUE;
+    }
+
+
+    /**
+     * 是否是合法的文件后缀
+     * File对象  MultipartFile 对象 或对应的集合 数组都可以
+     *
+     * @param value
+     * @param express 自定义后缀 多个逗号分隔即可
+     * @return
+     */
+    public static Boolean isSuitableFileSuffix(Object value, String express) {
+        if (value == null || value.equals("")) {
+            return Boolean.FALSE;
+        }
+
+        List names = new ArrayList();
+        if (value instanceof File || value instanceof MultipartFile) {
+            judge(value, names);
+        }
+        if (value instanceof Collection) {
+            ((Collection) value).forEach(e -> {
+                judge(e, names);
+            });
+        }
+        if (value.getClass().isArray()) {
+            Object[] objs = (Object[]) value;
+            for (int i = 0; i < objs.length; i++) {
+                Object tmpvalue = objs[i];
+                judge(tmpvalue, names);
+            }
+        }
+        if (names.size() == 0) {
+            return Boolean.FALSE;
+        }
+
+        return realJudgeFileSuffix(names, express);
+    }
+
+    private static Boolean realJudgeFileSuffix(List names, String express) {
+        String[] suffixs = null;
+        if (express != null && !"".equals(express)) {
+            suffixs = express.split(",");
+        } else {
+            suffixs = DEFAULT_ALLOWED_EXTENSION;
+        }
+        List<String> suffixList = Arrays.asList(suffixs);
+        for (Object fileName : names) {
+            String fileName1 = (String) fileName;
+            if (fileName1.contains(".")) {
+                String fileSuffix = fileName1.split("\\.")[1];
+                if (!(fileSuffix != null && suffixList.contains(fileSuffix))) {
+                    return Boolean.FALSE;
+                }
+            }
+        }
+        return Boolean.TRUE;
+    }
+
+    private static void judgeLen(Object tmpvalue, List names) {
+        if (tmpvalue instanceof File) {
+            long length = ((File) tmpvalue).length();
+            names.add(length);
+        } else if (tmpvalue instanceof MultipartFile) {
+            long size = ((MultipartFile) tmpvalue).getSize();
+            names.add(size);
+        }
+    }
+
+    private static void judge(Object tmpvalue, List names) {
+        if (tmpvalue instanceof File) {
+            String filename = ((File) tmpvalue).getName();
+            names.add(filename);
+        } else if (tmpvalue instanceof MultipartFile) {
+            String filename = ((MultipartFile) tmpvalue).getOriginalFilename();
+            names.add(filename);
+        }
+    }
+
 
     /**
      * 判断是否Equal指定的值
@@ -1118,6 +1249,23 @@ public class CheckUtil {
         public static final Pattern MAC_ADDRESS = Pattern.compile("((?:[A-F0-9]{1,2}[:-]){5}[A-F0-9]{1,2})|(?:0x)(\\d{12})(?:.+ETHER)", Pattern.CASE_INSENSITIVE);
 
         /**
+         * 允许的文件后缀
+         */
+        public static final String[] DEFAULT_ALLOWED_EXTENSION = {
+                // 图片
+                "bmp", "gif", "jpg", "jpeg", "png", "blob", "webp", "svg", "pcx", "ico",
+                // word excel powerpoint
+                "doc", "docx", "xls", "xlsx", "ppt", "pptx", "html", "htm", "txt",
+                // 压缩文件
+                "rar", "zip", "gz", "bz2", "7z", "tar.gz",
+                "xml",
+                // pdf
+                "pdf",
+                //视频
+                "swf", "flv", "mp3", "wav", "wma", "wmv", "mid", "avi", "mpg",
+                "asf", "rm", "rmvb", "mp4", "mov"
+        };
+        /**
          * 中国车牌号码（兼容新能源车牌）
          */
         public final static Pattern PLATE_NUMBER = Pattern.compile(
@@ -1144,6 +1292,11 @@ public class CheckUtil {
          * 数字
          */
         public static final Pattern NUMBER_CODE = Pattern.compile("\\d+(\\.\\d+)?");
+
+        /**
+         * 默认文件大小 10M
+         */
+        public static final Long DEFAULT_FILE_SIZE = 1024 * 1024 * 10L;
 
     }
 

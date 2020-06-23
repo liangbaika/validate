@@ -94,7 +94,11 @@ public enum Check {
 
     isGeneral("参数必须是英文字母,数字和下划线", CheckUtil::isGeneral),
 
-    isBirthdaystr("参数必须是生日字符串格式", CheckUtil::isBirthday);
+    isBirthdaystr("参数必须是生日字符串格式", CheckUtil::isBirthday),
+
+    isSuitableFileLength("文件太大啦", CheckUtil::isSuitableFileLength),
+
+    isSuitableFileSuffix("文件必须是有效合法后缀的文件", CheckUtil::isSuitableFileSuffix);
 
 
     /**

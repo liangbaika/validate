@@ -39,7 +39,7 @@ and resolve it.
 JDK>=1.8
  
 # 优点（advantages）
-集成了很多的验证，比如手机号验证，正则验证，邮箱，数字，小数，车牌号，身份证，长度，url, ISBN 等常用验证。
+集成了很多的验证，比如手机号验证，正则验证，邮箱，数字，小数，车牌号，身份证，长度，url, ISBN,文件后缀,文件大小 等常用验证。
 和javax validation 相比,我们的bean可以重复使用，具有更高的灵活性,只要是和验证相关的，可以做到和业务代码完全解耦。
 
 Integrated with a lot of authentication, such as phone number authentication, regular authentication, email,

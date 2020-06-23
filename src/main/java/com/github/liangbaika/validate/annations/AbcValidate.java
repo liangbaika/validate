@@ -25,16 +25,36 @@ import static java.lang.annotation.ElementType.*;
 @Inherited
 public @interface AbcValidate {
 
+    /**
+     * 是否必传
+     */
     boolean required() default false;
 
+    /**
+     * 实际上会取验证函数的msg 自定义此值的话优先级会覆盖的
+     */
     String message() default "参数验证错误";
 
+    /**
+     * 暂时没用到 后边可能会使用到  jsr303规范
+     */
     Class<?>[] groups() default {};
 
+    /**
+     * 暂时没用到 后边可能会使用到  jsr303规范
+     */
     Class<? extends Payload>[] payload() default {};
 
+    /**
+     * 验证函数
+     *
+     * @return
+     */
     Check fun() default Check.NotNull;
 
+    /**
+     * 多个值逗号隔开 此值和fun的里的验证方法息息相关
+     */
     String express() default "";
 
 

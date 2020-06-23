@@ -15,9 +15,11 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidateParams {
+
     /**
-     * A list of {@link }s available to the API operation.
      * 多个CheckParam，由上往下判断
+     *
+     * @return
      */
     ValidateParam[] value();
 

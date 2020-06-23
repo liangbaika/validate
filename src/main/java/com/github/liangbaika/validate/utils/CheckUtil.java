@@ -706,8 +706,8 @@ public class CheckUtil {
      * 判断文件大小   单位 KB
      * File对象  MultipartFile 对象 或对应的集合 数组都可以
      *
-     * @param value
-     * @param express 大小值 默认10M
+     * @param value   文件
+     * @param express 大小值 默认10M  例如 如果你的文件大小不希望超过2M 传 2048即可
      * @return
      */
     public static Boolean isSuitableFileLength(Object value, String express) {
@@ -759,8 +759,8 @@ public class CheckUtil {
      * 是否是合法的文件后缀
      * File对象  MultipartFile 对象 或对应的集合 数组都可以
      *
-     * @param value
-     * @param express 自定义后缀 多个逗号分隔即可
+     * @param value   文件
+     * @param express 自定义后缀 多个逗号分隔即可  例如 jpg,png（会覆盖默认的后缀 )
      * @return
      */
     public static Boolean isSuitableFileSuffix(Object value, String express) {

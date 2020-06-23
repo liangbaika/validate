@@ -30,7 +30,7 @@ public @interface ValidateParam {
     Check value() default Check.NotNull;
 
     /**
-     * 多个值逗号隔开
+     * 多个值逗号隔开 此值和value的里的验证方法息息相关
      *
      * @return
      */
@@ -44,9 +44,10 @@ public @interface ValidateParam {
     String argName();
 
     /**
-     * 暂时没啥用
+     * 暂时没啥用 已过时
      * 参数类型取值举例：
-     * java.lang.String
+     *
+     * @return
      */
     @Deprecated
     String argType() default "";

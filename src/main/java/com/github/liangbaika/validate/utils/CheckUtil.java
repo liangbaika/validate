@@ -109,6 +109,10 @@ public class CheckUtil {
      * 判断value ==null || length size <= 0
      * 支持字符串判断
      * 支持集合判断
+     *
+     * @param value
+     * @param express
+     * @return
      */
     public static Boolean isEmpty(Object value, String express) {
         return !isNotEmpty(value, express);
@@ -119,6 +123,10 @@ public class CheckUtil {
      * 判断value !=null && length、size > 0
      * 支持字符串判断
      * 支持集合判断
+     *
+     * @param value
+     * @param express
+     * @return
      */
     public static Boolean isNotEmpty(Object value, String express) {
         if (isNull(value, express)) {
@@ -138,6 +146,10 @@ public class CheckUtil {
      * 判断参数是否是 true
      * 支持Boolean类型
      * 支持String类型
+     *
+     * @param value
+     * @param express
+     * @return
      */
     public static Boolean isTrue(Object value, String express) {
         if (isNull(value, express)) {
@@ -160,6 +172,10 @@ public class CheckUtil {
      * 判断参数是否是 false
      * 支持Boolean类型
      * 支持String类型
+     *
+     * @param value
+     * @param express
+     * @return
      */
     public static Boolean isFalse(Object value, String express) {
         return !isTrue(value, express);
@@ -171,6 +187,10 @@ public class CheckUtil {
      * 支持Date类型
      * 支持LocalDate类型
      * 支持String类型，yyyy-MM-dd、yyyyMMdd、yyyy/MM/dd格式； 默认仅支持yyyy-MM-dd
+     *
+     * @param value
+     * @param express 时间格式
+     * @return
      */
     public static Boolean isDate(Object value, String express) {
         if (isNull(value, express)) {
@@ -203,6 +223,10 @@ public class CheckUtil {
      * 支持Date类型
      * 支持LocalDateTime类型
      * 支持String类型，yyyy-MM-dd HH:mm:ss、yyyyMMddHHmmss、yyyy/MM/dd HH:mm:ss格式； 默认仅支持yyyy-MM-dd HH:mm:ss
+     *
+     * @param value
+     * @param express 时间格式
+     * @return
      */
     public static Boolean isDateTime(Object value, String express) {
         if (isNull(value, express)) {
@@ -240,7 +264,7 @@ public class CheckUtil {
      * 支持String类型，yyyy-MM-dd HH:mm:ss、yyyyMMddHHmmss、yyyy/MM/dd HH:mm:ss格式； 默认仅支持yyyy-MM-dd HH:mm:ss
      *
      * @param value
-     * @param express
+     * @param express 时间格式
      * @return
      */
     public static Boolean isPast(Object value, String express) {
@@ -280,7 +304,7 @@ public class CheckUtil {
      * 支持String类型，yyyy-MM-dd HH:mm:ss、yyyyMMddHHmmss、yyyy/MM/dd HH:mm:ss格式； 默认仅支持yyyy-MM-dd HH:mm:ss
      *
      * @param value
-     * @param express
+     * @param express 时间格式
      * @return
      */
     public static Boolean isFuture(Object value, String express) {
@@ -321,7 +345,7 @@ public class CheckUtil {
      * 支持String类型，默认仅支持yyyy-MM-dd
      *
      * @param value
-     * @param express
+     * @param express 时间格式
      * @return
      */
     public static Boolean isToday(Object value, String express) {
@@ -504,7 +528,7 @@ public class CheckUtil {
      * 支持Collection，判断size的值
      *
      * @param value
-     * @param express
+     * @param express 指定值
      * @return
      */
     public static Boolean isGreaterThan(Object value, String express) {
@@ -546,7 +570,7 @@ public class CheckUtil {
      * 支持Collection，判断size的值
      *
      * @param value
-     * @param express
+     * @param express 指定值
      * @return
      */
     public static Boolean isGreaterThanEqual(Object value, String express) {
@@ -588,7 +612,7 @@ public class CheckUtil {
      * 支持Collection，判断size的值
      *
      * @param value
-     * @param express
+     * @param express 指定值
      * @return
      */
     public static Boolean isLessThan(Object value, String express) {
@@ -629,7 +653,7 @@ public class CheckUtil {
      * 支持Collection，判断size的值
      *
      * @param value
-     * @param express
+     * @param express 指定值
      * @return
      */
     public static Boolean isLessThanEqual(Object value, String express) {
@@ -737,6 +761,25 @@ public class CheckUtil {
             }
         }
         return Boolean.FALSE;
+    }
+
+
+    /**
+     * 时间毫秒值
+     *
+     * @param value
+     * @param regEx
+     * @return
+     */
+    public static Boolean isTimeMillSeconds(Object value, String regEx) {
+        Boolean number = isNumber(value, regEx);
+        if (number) {
+            if (String.valueOf(value).length() == 13) {
+                return true;
+            }
+        }
+        return false;
+
     }
 
     /**
@@ -1002,23 +1045,8 @@ public class CheckUtil {
     }
 
     /**
-     * 时间毫秒值
-     *
-     * @param value
-     * @param regEx
-     * @return
+     * 相关正则表达式
      */
-    public static Boolean isTimeMillSeconds(Object value, String regEx) {
-        Boolean number = isNumber(value, regEx);
-        if (number) {
-            if (String.valueOf(value).length() == 13) {
-                return true;
-            }
-        }
-        return false;
-
-    }
-
     public static class RegexPattern {
         /**
          * 邮箱

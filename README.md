@@ -22,7 +22,7 @@ versus springboot Framework for seamless integration of verification framework.
 
 # 注意(attention)
 1 如果非法参数将抛出ParamsInValidException，您应该捕获这个特殊的异常并解决它。
-如果采用的是jsr303型即javax-validation验证并且不是用的@AbcValidate注解,则需要自行处理异常。
+如果采用的是jsr303型即javax-validation验证 则需要自行处理异常(org.springframework.web.bind.MethodArgumentNotValidException)。
 对象多级验证时 支持无限级 如 'user.tokenObj.value' （0.7版本开始支持无限级 之前只支持2级）
 
 2 ValidateParam里的express字段使用，一般情况下 可以为空，
@@ -86,7 +86,7 @@ public class TestController {
 
     /**
      * 多字段验证
-     *
+     * 建议 如果字段过多（超过三个）使用自定义方式 更简洁
      * @param name
      * @param age
      * @param idcard
@@ -161,14 +161,19 @@ import com.github.liangbaika.validate.enums.Check;
  */
 
 public class OneData {
-
-
+    
+     //自定义的时候 fun=Custom；express= bean名字 
     @AbcValidate(required = true, fun = Check.Custom, express = "nameValidater")
     private String name;
+    
+    
     @AbcValidate(required = true)
     private Integer age;
+    
+    
     @AbcValidate(required = true, fun = Check.le, express = "1")
     private Integer sex;
+    
 
     public String getName() {
         return name;
@@ -207,7 +212,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 自定义验证器 模拟复杂逻辑校验
- *
+ * 需要被spring容器管理
  * @author liangbaikai
  * @version 1.0
  * @date 2020/6/16 12:01
@@ -223,6 +228,8 @@ public class NameValidater implements ParamValidator {
         }
         return false;
     }
+    
+    
 }
 
 
@@ -243,7 +250,27 @@ public class NameValidater implements ParamValidator {
      public Results handleParamsValidException(com.github.liangbaika.validate.exception.ParamsInValidException  e) {
          return Results.error(new ErrorCode(ErrorCode.PARAMA_ERROR.getCode(), "参数错误 " + e.getMessage()));
      }
+     
+    
  }
+```
+
+# 处理jsr 303异常
+```
+       演示 贴出核心代码
+       
+        if (e instanceof MethodArgumentNotValidException) {
+            BindingResult bindingResult = ((MethodArgumentNotValidException) e).getBindingResult();
+            List<ObjectError> allErrors = bindingResult.getAllErrors();
+            StringBuilder errMsg = new StringBuilder();
+            for (ObjectError allError : allErrors) {
+                FieldError fieldError = (FieldError) allError;
+                String field = fieldError.getField();
+                String defaultMessage = fieldError.getDefaultMessage();
+                errMsg.append(field + ":" + defaultMessage + ";  ");
+            }
+            return RestResponse.error(new ErrorCode(ErrorCode.PARAMA_ERROR.getCode(), errMsg.toString()));
+        } 
 ```
 
 # 感谢与建议 （Thanks and Suggestions）

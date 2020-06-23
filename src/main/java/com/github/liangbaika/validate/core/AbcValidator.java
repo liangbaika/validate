@@ -15,9 +15,14 @@ import javax.validation.ConstraintValidatorContext;
  */
 public class AbcValidator implements ConstraintValidator<AbcValidate, Object> {
 
+    private static final String DEFAULT_MSG = "参数验证错误";
+
+
     private boolean required = false;
     private Check func;
     private String express;
+    private String msg;
+
 
     public AbcValidator() {
     }
@@ -32,7 +37,12 @@ public class AbcValidator implements ConstraintValidator<AbcValidate, Object> {
         required = constraintAnnotation.required();
         func = constraintAnnotation.fun();
         express = constraintAnnotation.express();
+        msg = constraintAnnotation.message();
+        if (DEFAULT_MSG.equals(msg)) {
+            msg = func.msg + express;
+        }
     }
+
 
     /**
      * jsr303 验证
@@ -44,7 +54,13 @@ public class AbcValidator implements ConstraintValidator<AbcValidate, Object> {
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         if (required) {
-            return func.fun.apply(value, express);
+            Boolean res = func.fun.apply(value, express);
+            if (!res) {
+                context.disableDefaultConstraintViolation();
+                context.buildConstraintViolationWithTemplate(msg)
+                        .addConstraintViolation();
+            }
+            return res;
         } else {
             return true;
         }

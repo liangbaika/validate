@@ -12,14 +12,13 @@ package com.github.liangbaika.validate.annations;
 
 import com.github.liangbaika.validate.enums.Check;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Repeatable(ValidateParam.List.class)
 public @interface ValidateParam {
 
     /**
@@ -59,6 +58,19 @@ public @interface ValidateParam {
      * @return
      */
     String msg() default "";
+
+
+    /**
+     * Defines several {@link ValidateParam} annotations on the same element.
+     *
+     * @see ValidateParam
+     */
+    @Target(ElementType.METHOD)
+    @Retention(RetentionPolicy.RUNTIME)
+    @Documented
+    @interface List {
+        ValidateParam[] value();
+    }
 
 
 }

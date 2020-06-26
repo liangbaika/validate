@@ -1,9 +1,6 @@
 package com.github.liangbaika.validate.annations;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * 验证注解 一般放在 Controoler里的路由方法上使用
@@ -14,6 +11,7 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
+@Repeatable(ValidateParams.List.class)
 public @interface ValidateParams {
 
     /**
@@ -31,4 +29,16 @@ public @interface ValidateParams {
      * @return
      */
     boolean shortPath() default false;
+
+    /**
+     * Defines several {@link ValidateParams} annotations on the same element.
+     *
+     * @see ValidateParams
+     */
+    @Target(ElementType.METHOD)
+    @Retention(RetentionPolicy.RUNTIME)
+    @Documented
+    @interface List {
+        ValidateParams[] value();
+    }
 }

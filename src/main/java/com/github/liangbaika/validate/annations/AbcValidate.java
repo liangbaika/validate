@@ -9,6 +9,7 @@ import javax.validation.Payload;
 import java.lang.annotation.*;
 
 import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * 注解 一般用于bean字段 方法上做参数校验 实现了JSR303规范。使用此注解的字段如果非法那么会抛出
@@ -19,10 +20,10 @@ import static java.lang.annotation.ElementType.*;
  * @see ParamsInValidException
  */
 @Target({METHOD, FIELD, CONSTRUCTOR, PARAMETER, ANNOTATION_TYPE})
-@Retention(RetentionPolicy.RUNTIME)
+@Retention(RUNTIME)
 @Documented
 @Constraint(validatedBy = {AbcValidator.class})
-@Inherited
+@Repeatable(AbcValidate.List.class)
 public @interface AbcValidate {
 
     /**
@@ -36,12 +37,12 @@ public @interface AbcValidate {
     String message() default "参数验证错误";
 
     /**
-     * 暂时没用到 后边可能会使用到  jsr303规范
+     * 分组
      */
     Class<?>[] groups() default {};
 
     /**
-     * 暂时没用到 后边可能会使用到  jsr303规范
+     * 极少用到 携带数据
      */
     Class<? extends Payload>[] payload() default {};
 
@@ -56,6 +57,18 @@ public @interface AbcValidate {
      * 多个值逗号隔开 此值和fun的里的验证方法息息相关
      */
     String express() default "";
+
+    /**
+     * Defines several {@link AbcValidate} annotations on the same element.
+     *
+     * @see AbcValidate
+     */
+    @Target({METHOD, FIELD, CONSTRUCTOR, PARAMETER, ANNOTATION_TYPE})
+    @Retention(RUNTIME)
+    @Documented
+    @interface List {
+        AbcValidate[] value();
+    }
 
 
 }

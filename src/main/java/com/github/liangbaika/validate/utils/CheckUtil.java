@@ -2,6 +2,7 @@ package com.github.liangbaika.validate.utils;
 
 
 import com.github.liangbaika.validate.core.ParamValidator;
+import com.github.liangbaika.validate.exception.ParamsCheckException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -704,9 +705,9 @@ public class CheckUtil {
 
     /**
      * 判断文件大小   单位 KB
-     * File对象  MultipartFile 对象 或对应的集合 数组都可以
+     * 支持 File对象  MultipartFile 对象 或对应的集合 数组都可以
      *
-     * @param value   文件
+     * @param value   文件 File对象  MultipartFile 对象 或对应的集合 数组都可以
      * @param express 大小值 默认10M  例如 如果你的文件大小不希望超过2M 传 2048即可
      * @return
      */
@@ -714,7 +715,6 @@ public class CheckUtil {
         if (value == null || value.equals("")) {
             return Boolean.FALSE;
         }
-
         List<Long> lens = new ArrayList();
         if (value instanceof File || value instanceof MultipartFile) {
             judgeLen(value, lens);
@@ -818,6 +818,8 @@ public class CheckUtil {
         } else if (tmpvalue instanceof MultipartFile) {
             long size = ((MultipartFile) tmpvalue).getSize();
             names.add(size);
+        }else {
+            throw new ParamsCheckException("the field type is wrong, we need a File or  MultipartFile ");
         }
     }
 
@@ -828,6 +830,8 @@ public class CheckUtil {
         } else if (tmpvalue instanceof MultipartFile) {
             String filename = ((MultipartFile) tmpvalue).getOriginalFilename();
             names.add(filename);
+        } else {
+            throw new ParamsCheckException("the field type is wrong, we need a File or  MultipartFile ");
         }
     }
 

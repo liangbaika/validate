@@ -216,7 +216,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class NameValidater implements ParamValidator {
     
-    // 也可以在这里面抛出异常
+    // 也可以在这里面抛出 com.github.liangbaika.validate.exception.ParamsInValidException 特定异常
     
     @Override
     public Boolean validate(Object value) {

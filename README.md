@@ -1,5 +1,5 @@
 # validate-springboot-starter  
-
+latest=0.8.8
 
 #  中央仓库
 ```
@@ -17,7 +17,7 @@
 
 # validate-springboot-starter 简介 （desc）
 是一个validate-springboot-starter,与springboot框架无缝集成的灵活丰富的验证框架。
-
+完全兼容javax-validation 和 hibernate Validation，并比他们更灵活 简单 强大
 versus springboot Framework for seamless integration of verification framework.
 
 # 注意(attention)
@@ -118,16 +118,13 @@ public class TestController {
     /**
      * 对象多级验证，混合验证
      * 0.7 版本开始支持无限级 0.7版本之前的只支持2级
+     * 0.8.8开始支持重复注解 
      * @param oneData
      * @return
      */
     @PostMapping("test3")
-    @ValidateParams(
-            value = {
-                    @ValidateParam(value = Check.NotEmpty, argName = "oneData.name"),
-                    @ValidateParam(value = Check.Number, argName = "oneData.age"),
-            }
-    )
+    @ValidateParam(value = Check.NotEmpty, argName = "oneData.name")
+    @ValidateParam(value = Check.Number, argName = "oneData.age")
     public Object test3(@RequestBody @Valid OneData oneData) {
         return oneData;
     }

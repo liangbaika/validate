@@ -757,7 +757,7 @@ public class CheckUtil {
 
     /**
      * 是否是合法的文件后缀
-     * File对象  MultipartFile 对象 或对应的集合 数组都可以
+     * String,File对象  MultipartFile 对象 或对应的集合 数组都可以
      *
      * @param value   文件
      * @param express 自定义后缀 多个逗号分隔即可  例如 jpg,png（会覆盖默认的后缀 )
@@ -769,7 +769,7 @@ public class CheckUtil {
         }
 
         List names = new ArrayList();
-        if (value instanceof File || value instanceof MultipartFile) {
+        if (value instanceof File || value instanceof MultipartFile || value instanceof String) {
             judge(value, names);
         }
         if (value instanceof Collection) {
@@ -806,6 +806,8 @@ public class CheckUtil {
                 if (!(fileSuffix != null && suffixList.contains(fileSuffix))) {
                     return Boolean.FALSE;
                 }
+            } else {
+                return Boolean.FALSE;
             }
         }
         return Boolean.TRUE;
@@ -818,7 +820,7 @@ public class CheckUtil {
         } else if (tmpvalue instanceof MultipartFile) {
             long size = ((MultipartFile) tmpvalue).getSize();
             names.add(size);
-        }else {
+        } else {
             throw new ParamsCheckException("the field type is wrong, we need a File or  MultipartFile ");
         }
     }
@@ -830,8 +832,10 @@ public class CheckUtil {
         } else if (tmpvalue instanceof MultipartFile) {
             String filename = ((MultipartFile) tmpvalue).getOriginalFilename();
             names.add(filename);
+        } else if (tmpvalue instanceof String) {
+            names.add(tmpvalue);
         } else {
-            throw new ParamsCheckException("the field type is wrong, we need a File or  MultipartFile ");
+            throw new ParamsCheckException("the field type is wrong, we need a File or  MultipartFile or String ");
         }
     }
 

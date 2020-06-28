@@ -1,4 +1,4 @@
-# validate-springboot-starter  
+# validate-spring-boot-starter  
 latest=0.9.0
 
 #  中央仓库

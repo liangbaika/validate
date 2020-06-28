@@ -1,22 +1,22 @@
 # validate-springboot-starter  
-latest=0.8.8
+latest=0.9.0
 
 #  中央仓库
 ```
         maven 
         <dependency>
             <groupId>com.github.liangbaika</groupId>
-            <artifactId>validate-springboot-starter</artifactId>
+            <artifactId>validate-spring-boot-starter</artifactId>
             <version>{latest}</version>
         </dependency>
         
         gradle
-        compile group: 'com.github.liangbaika', name: 'validate-springboot-starter', version: '{latest}'
+        compile group: 'com.github.liangbaika', name: 'validate-spring-boot-starter', version: '{latest}'
 ```
 
 
 # validate-springboot-starter 简介 （desc）
-是一个validate-springboot-starter,与springboot框架无缝集成的灵活丰富的验证框架。
+是一个validate-spring-boot-starter,与springboot框架无缝集成的灵活丰富的验证框架。
 完全兼容javax-validation 和 hibernate Validation，并比他们更灵活 简单 强大
 versus springboot Framework for seamless integration of verification framework.
 

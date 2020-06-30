@@ -12,7 +12,7 @@ import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * 注解 一般用于bean字段 方法上做参数校验 实现了JSR303规范。使用此注解的字段如果非法那么会抛出
+ * 注解 一般用于bean字段 方法上做参数校验 实现了JSR303规范。
  *
  * @author liangbaikai
  * @version 0.1.0

@@ -1,5 +1,5 @@
 # validate-spring-boot-starter  
-latest=0.9.0
+latest=0.9.1
 
 #  中央仓库
 ```
@@ -29,7 +29,7 @@ versus springboot Framework for seamless integration of verification framework.
  当value是Custem时，express=validateBeanName, 有的验证方法需要多个值 逗号分隔即可。
  反正注意的是 此express字段和验证的value方法息息相关.
 
-3 用到了JDK8的新特性,因此JDK版本需要大于等于 1.8
+3 用到了JDK8的新特性,因此JDK版本需要大于等于 1.8 
 
 
 if illegal paramas then will throw  ParamsValidException, and you should catch this special exception  

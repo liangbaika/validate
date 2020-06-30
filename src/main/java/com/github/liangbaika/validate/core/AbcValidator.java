@@ -46,6 +46,7 @@ public class AbcValidator implements ConstraintValidator<AbcValidate, Object> {
 
     /**
      * jsr303 验证
+     * 这里面尽量不要抛出异常
      *
      * @param value
      * @param context
@@ -54,7 +55,21 @@ public class AbcValidator implements ConstraintValidator<AbcValidate, Object> {
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         if (required) {
-            Boolean res = func.fun.apply(value, express);
+            Boolean res = false;
+            try {
+
+                res = func.fun.apply(value, express);
+
+            } catch (Exception e) {
+                // handle exception
+                String errorMessage = "";
+                if (e.getCause() != null && e.getCause().getMessage() != null) {
+                    errorMessage = e.getCause().getMessage();
+                } else {
+                    errorMessage = e.getMessage();
+                }
+                msg = msg + "; raw exception occured, info: " + errorMessage;
+            }
             if (!res) {
                 context.disableDefaultConstraintViolation();
                 context.buildConstraintViolationWithTemplate(msg)

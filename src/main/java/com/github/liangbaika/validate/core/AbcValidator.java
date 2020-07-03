@@ -55,11 +55,10 @@ public class AbcValidator implements ConstraintValidator<AbcValidate, Object> {
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         if (required) {
+            String tmpMsg = "";
             Boolean res = false;
             try {
-
                 res = func.fun.apply(value, express);
-
             } catch (Exception e) {
                 // handle exception
                 String errorMessage = "";
@@ -68,11 +67,11 @@ public class AbcValidator implements ConstraintValidator<AbcValidate, Object> {
                 } else {
                     errorMessage = e.getMessage();
                 }
-                msg = msg + "; raw exception occured, info: " + errorMessage;
+                tmpMsg = msg + "; raw exception occured, info: " + errorMessage;
             }
             if (!res) {
                 context.disableDefaultConstraintViolation();
-                context.buildConstraintViolationWithTemplate(msg)
+                context.buildConstraintViolationWithTemplate(tmpMsg)
                         .addConstraintViolation();
             }
             return res;

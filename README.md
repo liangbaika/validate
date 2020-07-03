@@ -1,5 +1,5 @@
 # validate-spring-boot-starter  
-latest=0.9.1
+latest=0.9.2
 
 #  中央仓库
 ```
@@ -19,6 +19,29 @@ latest=0.9.1
 是一个validate-spring-boot-starter,与springboot框架无缝集成的灵活丰富的验证框架。
 完全兼容javax-validation 和 hibernate Validation，并比他们更灵活 简单 强大
 versus springboot Framework for seamless integration of verification framework.
+ 
+# 优点（advantages）
+
+1  内置常用验证 
+2  对 javax validation 和hibernate-validate 完全兼容
+3  支持验证Bean可重用
+4  支持条件分组 支持自定义验证器 （可做到和业务完全解耦）
+5  多条件操作符
+6  聚合功能 
+7  错误信息提示更加友好 更准确
+8  简单 灵活 上手快 功能强大
+
+常用验证：比如手机号验证，正则验证，ip,邮箱，长度，范围，数字，小数，中国车牌号，身份证，长度，
+url, 图书ISBN编号,文件后缀,文件大小 等常用验证。
+
+Integrated with a lot of authentication, such as phone number authentication, regular authentication, email,
+Numbers, decimals, license plate number, ID card, length, URL,ISBN and so on.Our beans are reusable and have more 
+flexibility than Javax Validation.
+
+# （自定义）custom
+只需要实现ParamValidator接口就好了，便可以处理复杂的验证，和业务代码完全解耦(你需要让这个实现接口的Bean被Spring容器托管);
+All you need to do is implement the ParamValidator interface, which handles complex validation and is completely
+decoupled from the business code (you need to have the Bean that implements the interface hosted by the Spring container).
 
 # 注意(attention)
 1 如果非法参数将抛出ParamsInValidException，您应该捕获这个特殊的异常并解决它。
@@ -36,19 +59,6 @@ if illegal paramas then will throw  ParamsValidException, and you should catch t
 and resolve it. 
  
 JDK>=1.8
- 
-# 优点（advantages）
-集成了很多的验证，比如手机号验证，正则验证，ip,邮箱，长度，范围，数字，小数，中国车牌号，身份证，长度，url, 图书ISBN编号,文件后缀,文件大小 等常用验证。
-和javax validation 相比,我们的bean可以重复使用，具有更高的灵活性,只要是和验证相关的，可以做到和业务代码完全解耦。
-
-Integrated with a lot of authentication, such as phone number authentication, regular authentication, email,
-Numbers, decimals, license plate number, ID card, length, URL,ISBN and so on.Our beans are reusable and have more 
-flexibility than Javax Validation.
-
-# （自定义）custom
-只需要实现ParamValidator接口就好了，便可以处理复杂的验证，和业务代码完全解耦(你需要让这个实现接口的Bean被Spring容器托管);
-All you need to do is implement the ParamValidator interface, which handles complex validation and is completely
-decoupled from the business code (you need to have the Bean that implements the interface hosted by the Spring container).
 
 # 快速开始（quick start）
 ```
@@ -141,7 +151,24 @@ public class TestController {
     public Object test4(@RequestBody OneData oneData) {
         return oneData;
     }
-
+    
+     @GetMapping("/test6")
+    @ValidateParam(required = false, value = Check.NotNull, argName = "age")
+    public RestResponse test6(String name, Integer age) {
+        return RestResponse.success();
+    }
+    
+    @GetMapping("/test8")
+    @ValidateParams(
+            value = {
+                    @ValidateParam(value = Check.NotNull, argName = "name"),
+                    @ValidateParam(required = false, value = Check.NotNull, argName = "age")
+            },
+            anded = false
+    )
+    public RestResponse test8(String name, Integer age) {
+        return RestResponse.success();
+    }
 }
 
 

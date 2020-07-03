@@ -21,8 +21,17 @@ import java.lang.annotation.*;
 @Repeatable(ValidateParam.List.class)
 public @interface ValidateParam {
 
+
     /**
-     * 参数校验调用方法
+     * 是否必传;  JSR303里默认false,此处由于历史兼容原因默认true; 需要注意
+     *
+     * @return
+     */
+    boolean required() default true;
+
+
+    /**
+     * 函数 参数校验调用方法
      *
      * @return
      */
@@ -36,20 +45,11 @@ public @interface ValidateParam {
     String express() default "";
 
     /**
-     * 参数名称用.表示层级，最多支持2级如： entity.userName
+     * 参数名称用 ;    .表示层级，支持无限级如： entityObj.userObj.age
      *
      * @return
      */
     String argName();
-
-    /**
-     * 暂时没啥用 已过时
-     * 参数类型取值举例：
-     *
-     * @return
-     */
-    @Deprecated
-    String argType() default "";
 
 
     /**

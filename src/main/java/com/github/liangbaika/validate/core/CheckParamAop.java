@@ -86,12 +86,21 @@ public class CheckParamAop {
             // AOP监听带注解的方法，所以不用判断注解是否为空
             ValidateParams annotation = method.getAnnotation(ValidateParams.class);
             boolean shortPath = annotation.shortPath();
+            boolean anded = annotation.anded();
             ValidateParam[] annos = annotation.value();
+            int passCounter = 0;
             for (ValidateParam anno : annos) {
+                boolean required = anno.required();
                 String argName = anno.argName();
                 //参数值
                 Object value = this.getParamValue(arguments, paramName, argName);
+                if (!required && value == null) {
+                    continue;
+                }
                 Boolean tmpValid = anno.value().fun.apply(value, anno.express());
+                if (tmpValid) {
+                    passCounter++;
+                }
                 if (isValid) {
                     isValid = tmpValid;
                 }
@@ -109,19 +118,24 @@ public class CheckParamAop {
                     }
                 }
             }
+            if (!anded && annos.length > 1 && passCounter > 0) {
+                isValid = true;
+            }
         } else {
             // 单个参数校验
             // AOP监听带注解的方法，所以不用判断注解是否为空
             ValidateParam anno = method.getAnnotation(ValidateParam.class);
-
+            boolean required = anno.required();
             String argName = anno.argName();
             //参数值
             Object value = this.getParamValue(arguments, paramName, argName);
-            // 执行判断 // 调用枚举类的 CheckUtil类方法
-            isValid = anno.value().fun.apply(value, anno.express());
-            msg = anno.msg();
-            if (null == msg || "".equals(msg)) {
-                msg = argName + ": " + anno.value().msg + " " + anno.express();
+            if (required || value != null) {
+                // 执行判断 // 调用枚举类的 CheckUtil类方法
+                isValid = anno.value().fun.apply(value, anno.express());
+                msg = anno.msg();
+                if (null == msg || "".equals(msg)) {
+                    msg = argName + ": " + anno.value().msg + " " + anno.express();
+                }
             }
         }
         return new SampleResult(msg, isValid);
@@ -139,8 +153,7 @@ public class CheckParamAop {
     private String[] getParamName(JoinPoint joinPoint) {
         Signature signature = joinPoint.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
-        String[] strings = methodSignature.getParameterNames();
-        return strings;
+        return methodSignature.getParameterNames();
     }
 
 
@@ -228,6 +241,7 @@ public class CheckParamAop {
         }
 
         String tempName = argNames[index];
+        // 注意 调用公共的getter方法;  某些bool值命名不规范时 可能会找不到对应方法,导致失败。
         String filedMethodName = "get" + tempName.substring(0, 1).toUpperCase() + tempName.substring(1, tempName.length());
         Method getterMethod = value.getClass().getMethod(filedMethodName);
         Object tempValue = getterMethod.invoke(value);

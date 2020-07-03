@@ -31,6 +31,15 @@ public @interface ValidateParams {
     boolean shortPath() default false;
 
     /**
+     * true 多个条件    与（and）;
+     * false 多个条件   或(or);
+     * value.length<=1 时 无效；
+     *
+     * @return
+     */
+    boolean anded() default true;
+
+    /**
      * Defines several {@link ValidateParams} annotations on the same element.
      *
      * @see ValidateParams

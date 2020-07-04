@@ -1,5 +1,6 @@
 # validate-spring-boot-starter  
-latest=0.9.3
+
+# latest=0.9.3
 
 #  中央仓库
 ```
@@ -14,15 +15,13 @@ latest=0.9.3
         compile group: 'com.github.liangbaika', name: 'validate-spring-boot-starter', version: '{latest}'
 ```
 
-
 # validate-springboot-starter 简介 （desc）
 是一个validate-spring-boot-starter,与springboot框架无缝集成的灵活丰富的验证框架。
 完全兼容javax-validation 和 hibernate Validation，并比他们更灵活 简单 强大
 versus springboot Framework for seamless integration of verification framework.
  
 # 优点（advantages）
-
-1. 内置常用验证 
+1.  内置常用验证 
 2.  对 javax validation 和hibernate-validate 完全兼容
 3.  支持验证Bean可重用
 4.  支持条件分组 支持自定义验证器 （自定义更简单强大，可做到和业务完全解耦）
@@ -38,21 +37,21 @@ Integrated with a lot of authentication, such as phone number authentication, re
 Numbers, decimals, license plate number, ID card, length, URL,ISBN and so on.Our beans are reusable and have more 
 flexibility than Javax Validation.
 
-# （自定义）custom
+# 自定义(custom)
 只需要实现ParamValidator接口就好了，便可以处理复杂的验证，和业务代码完全解耦(你需要让这个实现接口的Bean被Spring容器托管);
 All you need to do is implement the ParamValidator interface, which handles complex validation and is completely
 decoupled from the business code (you need to have the Bean that implements the interface hosted by the Spring container).
 
 # 注意(attention)
-1 如果非法参数将抛出ParamsInValidException，您应该捕获这个特殊的异常并解决它。
+1. 如果非法参数将抛出ParamsInValidException，您应该捕获这个特殊的异常并解决它。
 如果采用的是jsr303型即javax-validation验证 则需要自行处理异常(org.springframework.web.bind.MethodArgumentNotValidException)。
 对象多级验证时 支持无限级 如 'user.tokenObj.value' （0.7版本开始支持无限级 之前只支持2级）
 
-2 ValidateParam里的express字段使用，一般情况下 可以为空，
+2. ValidateParam里的express字段使用，一般情况下 可以为空，
  当value是Custem时，express=validateBeanName, 有的验证方法需要多个值 逗号分隔即可。
  反正注意的是 此express字段和验证的value方法息息相关.
 
-3 用到了JDK8的新特性,因此JDK版本需要大于等于 1.8 
+3. 用到了JDK8的新特性,因此JDK版本需要大于等于 1.8 
 
 
 if illegal paramas then will throw  ParamsValidException, and you should catch this special exception  

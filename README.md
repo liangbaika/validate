@@ -295,7 +295,7 @@ public class NameValidater implements ParamValidator {
 ```
 
 
-# 感谢与建议 （Thanks and Suggestions）
+# 欢迎使用 （Thanks and Suggestions）
 此项目采用 Apache License协议, 欢迎大家使用或提出建议或贡献代码 
 如果需要PR，请遵守标准提PR的那套标准原则。
 You are welcome to use or suggest or contribute code

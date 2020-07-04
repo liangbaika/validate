@@ -16,6 +16,10 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * AOP切面验证
@@ -34,29 +38,51 @@ public class CheckParamAop {
     public void checkParam() {
     }
 
+    @Pointcut("@annotation(com.github.liangbaika.validate.annations.ValidateParam.List)")
+    public void checkParamList() {
+    }
+
     @Pointcut("@annotation(com.github.liangbaika.validate.annations.ValidateParams)")
     public void checkParams() {
     }
 
-    @Around("checkParam()") // 这里要换成自定义注解的路径
-    public Object check1(ProceedingJoinPoint point) throws Throwable {
-        Object obj;
-        // 参数校验
-        SampleResult sampleResult = doCheck(point, false);
-        if (!sampleResult.getPass()) {
-            throw new ParamsInValidException(sampleResult.getMsg());
-        }
-        // 通过校验，继续执行原有方法
-        obj = point.proceed();
-        return obj;
+
+    @Around("checkParam()")
+    public Object checkSingle(ProceedingJoinPoint point) throws Throwable {
+        return interCheck(point, false, false);
     }
 
 
     @Around("checkParams()")
-    public Object check2(ProceedingJoinPoint point) throws Throwable {
+    public Object checkGroup(ProceedingJoinPoint point) throws Throwable {
+        return interCheck(point, true, false);
+    }
+
+    /**
+     * 拦截JDK编译后的重复注解
+     *
+     * @param point
+     * @return
+     * @throws Throwable
+     */
+    @Around("checkParamList()")
+    public Object checkList(ProceedingJoinPoint point) throws Throwable {
+        return interCheck(point, true, true);
+    }
+
+    /**
+     * 校验
+     *
+     * @param point   切点
+     * @param muiti   多个
+     * @param special 是否JDK编译的重复注解
+     * @return
+     * @throws Throwable
+     */
+    private Object interCheck(ProceedingJoinPoint point, boolean muiti, boolean special) throws Throwable {
         Object obj;
         // 参数校验
-        SampleResult sampleResult = doCheck(point, true);
+        SampleResult sampleResult = doCheck(point, muiti, special);
         if (!sampleResult.getPass()) {
             throw new ParamsInValidException(sampleResult.getMsg());
         }
@@ -65,15 +91,14 @@ public class CheckParamAop {
         return obj;
     }
 
-
     /**
-     * 参数校验
+     * 参数校验  核心逻辑
      *
      * @param point 切点
      * @param multi 多参数校验
      * @return 错误信息
      */
-    private SampleResult doCheck(JoinPoint point, boolean multi) {
+    private SampleResult doCheck(JoinPoint point, boolean multi, boolean special) {
         Method method = this.getMethod(point);
         String[] paramName = this.getParamName(point);
         // 获取接口传递的所有参数
@@ -82,14 +107,32 @@ public class CheckParamAop {
         Boolean isValid = true;
         String msg = " ";
         if (multi) {
+            List<AnnoModel> list = new ArrayList<>();
+            List<AnnoModel> annoModels = null;
             // 多个参数校验
             // AOP监听带注解的方法，所以不用判断注解是否为空
-            ValidateParams annotation = method.getAnnotation(ValidateParams.class);
-            boolean shortPath = annotation.shortPath();
-            boolean anded = annotation.anded();
-            ValidateParam[] annos = annotation.value();
+            ValidateParams annotation = null;
+            if (special) {
+                ValidateParam.List annotationList = method.getAnnotation(ValidateParam.List.class);
+                annoModels = Arrays.stream(annotationList.value()).map(e -> new AnnoModel(true, e)
+                ).collect(Collectors.toList());
+            } else {
+                annotation = method.getAnnotation(ValidateParams.class);
+                annoModels = Arrays.stream(annotation.value()).map(e -> new AnnoModel(false, e)
+                ).collect(Collectors.toList());
+            }
+            assert annoModels.size() > 0;
+            list.addAll(annoModels);
+
+            boolean shortPath = false;
+            boolean anded = true;
+            if (annotation != null) {
+                shortPath = annotation.shortPath();
+                anded = annotation.anded();
+            }
             int passCounter = 0;
-            for (ValidateParam anno : annos) {
+            for (AnnoModel annoModel : list) {
+                ValidateParam anno = annoModel.getValidateParam();
                 boolean required = anno.required();
                 String argName = anno.argName();
                 //参数值
@@ -97,30 +140,38 @@ public class CheckParamAop {
                 if (!required && value == null) {
                     continue;
                 }
+
+                //调用枚举类的 CheckUtil类方法
                 Boolean tmpValid = anno.value().fun.apply(value, anno.express());
-                if (tmpValid) {
+                if (tmpValid && !annoModel.getSed()) {
                     passCounter++;
                 }
                 if (isValid) {
                     isValid = tmpValid;
                 }
-                // 执行判断 // 调用枚举类的 CheckUtil类方法
+                // 执行判断
                 if (!tmpValid) {
                     // 只要有一个参数判断不通过，立即返回
                     String tmpMsg = anno.msg();
                     msg += tmpMsg;
                     if (null == tmpMsg || "".equals(tmpMsg)) {
-                        msg += (argName + ": " + anno.value().msg + " " + anno.express());
+                        msg += (argName + ": " + anno.value().msg + " " + anno.express() + " ; ");
                     }
-                    msg += "; ";
                     if (shortPath) {
                         break;
                     }
                 }
             }
-            if (!anded && annos.length > 1 && passCounter > 0) {
+
+            if (!special && !anded && passCounter > 0) {
+                msg += " 条件[或] ";
+            }
+
+            // 或条件成立
+            if (!anded && list.size() > 1 && passCounter > 0) {
                 isValid = true;
             }
+
         } else {
             // 单个参数校验
             // AOP监听带注解的方法，所以不用判断注解是否为空
@@ -267,6 +318,26 @@ public class CheckParamAop {
 
         public Boolean getPass() {
             return pass;
+        }
+
+    }
+
+    private static class AnnoModel {
+
+        private Boolean sed;
+        private ValidateParam validateParam;
+
+        public AnnoModel(boolean sed, ValidateParam validateParam) {
+            this.sed = sed;
+            this.validateParam = validateParam;
+        }
+
+        public Boolean getSed() {
+            return sed;
+        }
+
+        public ValidateParam getValidateParam() {
+            return validateParam;
         }
 
     }

@@ -1,5 +1,5 @@
 # validate-spring-boot-starter  
-latest=0.9.2
+latest=0.9.3
 
 #  中央仓库
 ```

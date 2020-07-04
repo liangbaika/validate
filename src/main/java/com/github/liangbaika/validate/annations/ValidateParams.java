@@ -11,7 +11,6 @@ import java.lang.annotation.*;
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@Repeatable(ValidateParams.List.class)
 public @interface ValidateParams {
 
     /**
@@ -39,15 +38,5 @@ public @interface ValidateParams {
      */
     boolean anded() default true;
 
-    /**
-     * Defines several {@link ValidateParams} annotations on the same element.
-     *
-     * @see ValidateParams
-     */
-    @Target(ElementType.METHOD)
-    @Retention(RetentionPolicy.RUNTIME)
-    @Documented
-    @interface List {
-        ValidateParams[] value();
-    }
+
 }

@@ -38,12 +38,12 @@ Numbers, decimals, license plate number, ID card, length, URL,ISBN and so on.Our
 flexibility than Javax Validation.
 
 # 自定义(custom)
-只需要实现 **_ParamValidator_** 接口就好了，便可以处理复杂的验证，和业务代码完全解耦(你需要让这个实现接口的Bean被Spring容器托管);
+只需要实现 **_ParamValidator_** 接口就好了，便可以处理复杂的验证，和业务代码完全解耦(你需要让这个实现接口的Bean**被Spring容器托管**);
 All you need to do is implement the ParamValidator interface, which handles complex validation and is completely
 decoupled from the business code (you need to have the Bean that implements the interface hosted by the Spring container).
 
 # 注意(attention)
-1. 如果非法参数将抛出**_ParamsInValidException_**，您应该捕获这个特殊的异常并解决它。
+1. 如果非法参数将抛出 **_ParamsInValidException_**，您应该捕获这个特殊的异常并解决它。
 如果采用的是jsr303型即javax-validation验证 则需要自行处理异常(**org.springframework.web.bind.MethodArgumentNotValidException**)。
 对象多级验证时 支持无限级 如 'user.tokenObj.value' （0.7版本开始支持无限级 之前只支持2级）
 
@@ -51,7 +51,7 @@ decoupled from the business code (you need to have the Bean that implements the 
  当value是Custem时，express=validateBeanName, 有的验证方法需要多个值 逗号分隔即可。
  反正注意的是 此express字段和验证的value方法息息相关.
 
-3. 用到了JDK8的新特性,因此JDK版本需要大于等于 1.8 
+3. 用到了JDK8的新特性,因此JDK版本需要大于等于 **1.8** 
 
 
 if illegal paramas then will throw  ParamsValidException, and you should catch this special exception  

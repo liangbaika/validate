@@ -22,14 +22,14 @@ versus springboot Framework for seamless integration of verification framework.
  
 # 优点（advantages）
 
-1  内置常用验证 
-2  对 javax validation 和hibernate-validate 完全兼容
-3  支持验证Bean可重用
-4  支持条件分组 支持自定义验证器 （可做到和业务完全解耦）
-5  多条件操作符
-6  聚合功能 
-7  错误信息提示更加友好 更准确
-8  简单 灵活 上手快 功能强大
+1. 内置常用验证 
+2.  对 javax validation 和hibernate-validate 完全兼容
+3.  支持验证Bean可重用
+4.  支持条件分组 支持自定义验证器 （自定义更简单强大，可做到和业务完全解耦）
+5.  多条件操作符
+6.  聚合功能 
+7.  错误信息提示更加友好 更准确
+8.  简单 灵活 上手快 功能强大
 
 常用验证：比如手机号验证，正则验证，ip,邮箱，长度，范围，数字，小数，中国车牌号，身份证，长度，
 url, 图书ISBN编号,文件后缀,文件大小 等常用验证。

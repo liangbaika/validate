@@ -22,13 +22,13 @@ versus springboot Framework for seamless integration of verification framework.
  
 # 优点（advantages）
 1.  内置常用验证 
-2.  对 javax validation 和hibernate-validate 完全兼容
-3.  支持验证Bean可重用
-4.  支持条件分组 支持自定义验证器 （自定义更简单强大，可做到和业务完全解耦）
+2.  对 javax validation 和hibernate-validate **完全兼容**
+3.  支持验证Bean可**重用**
+4.  支持条件分组 支持自定义验证器 （自定义**更简单强大**，可做到和业务**完全解耦**）
 5.  多条件操作符
 6.  聚合功能 
-7.  错误信息提示更加友好 更准确
-8.  简单 灵活 上手快 功能强大
+7.  错误信息提示**更加友好** 更准确
+8.  **简单 灵活 无脑**
 
 常用验证：比如手机号验证，正则验证，ip,邮箱，长度，范围，数字，小数，中国车牌号，身份证，长度，
 url, 图书ISBN编号,文件后缀,文件大小 等常用验证。
@@ -38,13 +38,13 @@ Numbers, decimals, license plate number, ID card, length, URL,ISBN and so on.Our
 flexibility than Javax Validation.
 
 # 自定义(custom)
-只需要实现ParamValidator接口就好了，便可以处理复杂的验证，和业务代码完全解耦(你需要让这个实现接口的Bean被Spring容器托管);
+只需要实现 **_ParamValidator_** 接口就好了，便可以处理复杂的验证，和业务代码完全解耦(你需要让这个实现接口的Bean被Spring容器托管);
 All you need to do is implement the ParamValidator interface, which handles complex validation and is completely
 decoupled from the business code (you need to have the Bean that implements the interface hosted by the Spring container).
 
 # 注意(attention)
-1. 如果非法参数将抛出ParamsInValidException，您应该捕获这个特殊的异常并解决它。
-如果采用的是jsr303型即javax-validation验证 则需要自行处理异常(org.springframework.web.bind.MethodArgumentNotValidException)。
+1. 如果非法参数将抛出**_ParamsInValidException_**，您应该捕获这个特殊的异常并解决它。
+如果采用的是jsr303型即javax-validation验证 则需要自行处理异常(**org.springframework.web.bind.MethodArgumentNotValidException**)。
 对象多级验证时 支持无限级 如 'user.tokenObj.value' （0.7版本开始支持无限级 之前只支持2级）
 
 2. ValidateParam里的express字段使用，一般情况下 可以为空，
@@ -57,7 +57,7 @@ decoupled from the business code (you need to have the Bean that implements the 
 if illegal paramas then will throw  ParamsValidException, and you should catch this special exception  
 and resolve it. 
  
-JDK>=1.8
+**_JDK>=1.8_**
 
 # 快速开始（quick start）
 ```

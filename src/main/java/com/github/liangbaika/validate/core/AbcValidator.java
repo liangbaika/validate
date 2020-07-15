@@ -55,7 +55,7 @@ public class AbcValidator implements ConstraintValidator<AbcValidate, Object> {
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         if (required) {
-            String tmpMsg = "";
+            String tmpMsg = msg;
             Boolean res = false;
             try {
                 res = func.fun.apply(value, express);

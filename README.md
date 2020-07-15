@@ -1,6 +1,6 @@
 # validate-spring-boot-starter  
 
-# latest=0.9.3
+# latest=0.9.4
 
 #  中央仓库
 ```
@@ -269,25 +269,35 @@ public class NameValidater implements ParamValidator {
  
      private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
  
-       @ExceptionHandler({ParamsInValidException.class, MethodArgumentNotValidException.class})
-       @ResponseBody
-       public RestResponse handleParamsValidException(Exception e) {
-           if (e instanceof ParamsInValidException) {
-               return RestResponse.error(new ErrorCode(ErrorCode.PARAMA_ERROR.getCode(),  e.getMessage()));
-           } else {
-                //jsr303
-               BindingResult bindingResult = ((MethodArgumentNotValidException) e).getBindingResult();
-               List<ObjectError> allErrors = bindingResult.getAllErrors();
-               StringBuilder errMsg = new StringBuilder();
-               for (ObjectError allError : allErrors) {
-                   FieldError fieldError = (FieldError) allError;
-                   String field = fieldError.getField();
-                   String defaultMessage = fieldError.getDefaultMessage();
-                   errMsg.append(field + ":" + defaultMessage + ";  ");
-               }
-               return RestResponse.error(new ErrorCode(ErrorCode.PARAMA_ERROR.getCode(), errMsg.toString()));
-           }
-       }
+      @ExceptionHandler({ParamsInValidException.class, MethodArgumentNotValidException.class, BindException.class})
+      @ResponseBody
+      public RestResponse handleParamsValidException(Exception e) {
+          if (e instanceof ParamsInValidException) {
+              return RestResponse.error(new ErrorCode("500001", e.getMessage()));
+          } else {
+              BindingResult bindingResult = null;
+              if (e instanceof BindException) {
+                  bindingResult = ((BindException) e).getBindingResult();
+              } else {
+                  bindingResult = ((MethodArgumentNotValidException) e).getBindingResult();
+              }
+              StringBuilder errMsg = getErrorInfo(bindingResult);
+              return RestResponse.error(new ErrorCode("500001", errMsg.toString()));
+          }
+      }
+    
+    
+      private StringBuilder getErrorInfo(BindingResult bindingResult) {
+          List<ObjectError> allErrors = bindingResult.getAllErrors();
+          StringBuilder errMsg = new StringBuilder();
+          for (ObjectError allError : allErrors) {
+              FieldError fieldError = (FieldError) allError;
+              String field = fieldError.getField();
+              String defaultMessage = fieldError.getDefaultMessage();
+              errMsg.append(field + ":" + defaultMessage + ";  ");
+          }
+          return errMsg;
+      }
      
     
  }

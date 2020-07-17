@@ -66,7 +66,14 @@ public enum Check {
 
     ne("参数必须不等于指定值", CheckUtil::isNotEqual),
 
-    Equal("参数必须不等于指定值", CheckUtil::isEqual),
+    eq("参数必须等于指定值", CheckUtil::isEqual),
+
+    /**
+     * use eq to replace it
+     */
+    @Deprecated
+    Equal("参数必须等于指定值", CheckUtil::isEqual),
+
 
     Pattern("参数必须符合指定的正则表达式", CheckUtil::isPattern),
 

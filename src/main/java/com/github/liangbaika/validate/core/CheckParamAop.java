@@ -109,10 +109,10 @@ public class CheckParamAop {
         if (multi) {
             List<AnnoModel> list = new ArrayList<>();
             List<AnnoModel> annoModels = null;
-            // 多个参数校验
-            // AOP监听带注解的方法，所以不用判断注解是否为空
+            //多个参数校验  AOP监听带注解的方法，所以不用判断注解是否为空
             ValidateParams annotation = null;
             if (special) {
+                // javac 编译后的注解 查看class文件可知 自动生成此类型（jdk8新特性）
                 ValidateParam.List annotationList = method.getAnnotation(ValidateParam.List.class);
                 annoModels = Arrays.stream(annotationList.value()).map(e -> new AnnoModel(true, e)
                 ).collect(Collectors.toList());
@@ -233,16 +233,25 @@ public class CheckParamAop {
         }
         //从对象中取值
         if (argName.contains(".")) {
-            //从实体对象中取值 无限级  如 user.tokenObj.value
+            //从实体对象中取值 理论上支持无限级  如 user.tokenObj.value
             String[] argNames = argName.split("\\.");
             try {
+                //  最大10级 递归深度 一般情况下来说最大三,四级.
+                if (argNames != null && argNames.length > 10) {
+                    throw new ParamsCheckException(String.format(" occured validated raw error   argName {%s} the recursion is too deep,over 10..  ",
+                            argName));
+                }
                 value = getObjValue(1, value, argNames);
+
             } catch (NoSuchMethodException e) {
-                throw new ParamsCheckException("can not  found getter method");
+                throw new ParamsCheckException(String.format(" occured validated raw error NoSuchMethodException  argName {%s} can not  found getter method  e is {%s}",
+                        argName, e.getMessage()));
             } catch (InvocationTargetException e) {
-                throw new ParamsCheckException(" invoke getter method error");
+                throw new ParamsCheckException(String.format("occured validated raw error InvocationTargetException  argName {%s} invoke getter method error  e is {%s}",
+                        argName, e.getMessage()));
             } catch (IllegalAccessException e) {
-                throw new ParamsCheckException(" when get filed value IllegalAccessException occured");
+                throw new ParamsCheckException(String.format("  validated raw error argName {%s} when" +
+                        " get filed value IllegalAccessException occured   e is {%s}", argName, e.getMessage()));
             }
         }
         return value;
@@ -300,7 +309,9 @@ public class CheckParamAop {
         return getObjValue(index + 1, tempValue, argNames);
     }
 
-
+    /**
+     * 判断非法参数的简单结果对象
+     */
     private static class SampleResult {
         private String msg;
         private Boolean pass;
@@ -322,6 +333,9 @@ public class CheckParamAop {
 
     }
 
+    /**
+     * just a holder
+     */
     private static class AnnoModel {
 
         private Boolean sed;

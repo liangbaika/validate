@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.github.liangbaika</groupId>
     <artifactId>validate-spring-boot-starter</artifactId>
-    <version>0.9.5</version>
+    <version>0.9.6</version>
     <name>validate</name>
     <description>validation tool with springboot</description>
 

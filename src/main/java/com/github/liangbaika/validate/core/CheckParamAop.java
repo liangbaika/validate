@@ -153,9 +153,9 @@ public class CheckParamAop {
                 if (!tmpValid) {
                     // 只要有一个参数判断不通过，立即返回
                     String tmpMsg = anno.msg();
-                    msg += tmpMsg;
+                    msg = msg + "  " + tmpMsg;
                     if (null == tmpMsg || "".equals(tmpMsg)) {
-                        msg += (argName + ": " + anno.value().msg + " " + anno.express() + " ; ");
+                        msg += ("  " + argName + ": " + anno.value().msg + " " + anno.express() + " ; ");
                     }
                     if (shortPath) {
                         break;

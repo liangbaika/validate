@@ -90,7 +90,7 @@ public enum Check {
 
     isMac("参数必须是mac地址", CheckUtil::isMac),
 
-    isIDCard("参数必须是身份证", CheckUtil::isIDCard),
+    isIDCard("参数必须是身份证", CheckUtil::isIdCard),
 
     isGeneral("参数必须是英文字母,数字和下划线", CheckUtil::isGeneral),
 

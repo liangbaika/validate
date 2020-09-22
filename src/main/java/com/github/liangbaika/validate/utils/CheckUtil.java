@@ -712,7 +712,7 @@ public class CheckUtil {
      * @return
      */
     public static Boolean isSuitableFileLength(Object value, String express) {
-        if (value == null || value.equals("")) {
+        if (value == null || "".equals(value)) {
             return Boolean.FALSE;
         }
         List<Long> lens = new ArrayList();
@@ -764,7 +764,7 @@ public class CheckUtil {
      * @return
      */
     public static Boolean isSuitableFileSuffix(Object value, String express) {
-        if (value == null || value.equals("")) {
+        if (value == null || "".equals(value)) {
             return Boolean.FALSE;
         }
 
@@ -928,7 +928,7 @@ public class CheckUtil {
      * @param regEx
      * @return
      */
-    public static Boolean isIDCard(Object value, String regEx) {
+    public static Boolean isIdCard(Object value, String regEx) {
         if (value == null) {
             return Boolean.FALSE;
         }
@@ -1075,6 +1075,7 @@ public class CheckUtil {
      * @return
      * @since 0.5.0
      */
+    @SuppressWarnings("warn")
     public static Boolean isISBN(Object value, String regEx) {
         if (value == null) {
             return Boolean.FALSE;
@@ -1104,7 +1105,7 @@ public class CheckUtil {
             return false;
         }
 
-        char digits[] = number.toCharArray();
+        char[] digits = number.toCharArray();
         int len = number.length();
         int numSum = 0;
         for (int i = len - 1, j = 1; i >= 0; i--, j++) {
@@ -1128,6 +1129,7 @@ public class CheckUtil {
      * @param regEx
      * @return
      */
+    @SuppressWarnings("warn")
     public static Boolean isUUID(Object value, String regEx) {
         if (value == null) {
             return Boolean.FALSE;

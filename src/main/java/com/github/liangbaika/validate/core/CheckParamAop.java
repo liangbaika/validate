@@ -154,7 +154,7 @@ public class CheckParamAop {
                     // 只要有一个参数判断不通过，立即返回
                     String tmpMsg = anno.msg();
                     msg = msg + "  " + tmpMsg;
-                    if (null == tmpMsg || "".equals(tmpMsg)) {
+                    if ("".equals(tmpMsg)) {
                         msg += ("  " + argName + ": " + anno.value().msg + " " + anno.express() + " ; ");
                     }
                     if (shortPath) {
@@ -184,7 +184,7 @@ public class CheckParamAop {
                 // 执行判断 // 调用枚举类的 CheckUtil类方法
                 isValid = anno.value().fun.apply(value, anno.express());
                 msg = anno.msg();
-                if (null == msg || "".equals(msg)) {
+                if ("".equals(msg)) {
                     msg = argName + ": " + anno.value().msg + " " + anno.express();
                 }
             }
@@ -219,7 +219,8 @@ public class CheckParamAop {
     private Object getParamValue(Object[] arguments, String[] paramName, String argName) {
         Object value = null;
         String name = argName;
-        if (argName.contains(".")) {
+        String spliter = ".";
+        if (argName.contains(spliter)) {
             name = argName.split("\\.")[0];
         }
         int index = 0;
@@ -232,7 +233,7 @@ public class CheckParamAop {
             index++;
         }
         //从对象中取值
-        if (argName.contains(".")) {
+        if (argName.contains(spliter)) {
             //从实体对象中取值 理论上支持无限级  如 user.tokenObj.value
             String[] argNames = argName.split("\\.");
             try {

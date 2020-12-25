@@ -302,12 +302,35 @@ public class CheckParamAop {
         }
 
         String tempName = argNames[index];
-        // 注意 调用公共的getter方法;  某些bool值命名不规范时 可能会找不到对应方法,导致失败。
-        String filedMethodName = "get" + tempName.substring(0, 1).toUpperCase() + tempName.substring(1, tempName.length());
+        // 注意 调用公共的getter方法;
+        String suffix = tempName.substring(0, 1).toUpperCase() + tempName.substring(1);
+        String filedMethodName = "get" + suffix;
+        boolean has = hasThisMethodByName(value, filedMethodName);
+        //某些bool值命名不规范时 可能会找不到对应方法,导致失败。
+        if (!has) {
+            filedMethodName = "is" + suffix;
+        }
         Method getterMethod = value.getClass().getMethod(filedMethodName);
         Object tempValue = getterMethod.invoke(value);
 
         return getObjValue(index + 1, tempValue, argNames);
+    }
+
+    private static boolean hasThisMethodByName(Object obj, String filedMethodName) {
+        if (obj == null || filedMethodName == null) {
+            return false;
+        }
+
+        Method[] methods = obj.getClass().getMethods();
+        if (methods == null || methods.length <= 0) {
+            return false;
+        }
+        for (Method method : methods) {
+            if (filedMethodName.equals(method.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

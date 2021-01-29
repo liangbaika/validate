@@ -1,6 +1,7 @@
 package com.github.liangbaika.validate.enums;
 
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.github.liangbaika.validate.utils.CheckUtil;
 
 import java.util.function.BiFunction;
@@ -115,4 +116,16 @@ public enum Check {
         this.msg = msg;
         this.fun = fun;
     }
+
+    public Boolean vali(Object value, String express) {
+        Boolean checkResult = this.fun.apply(value, express);
+        System.out.println(checkResult);
+        return checkResult;
+    }
+
+    public Boolean vali(Object value) {
+        return vali(value,null);
+    }
+
+
 }

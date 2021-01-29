@@ -1,6 +1,6 @@
 # validate-spring-boot-starter  
 
-# latest=1.0.0  
+# latest=1.1.0  
 
 
 #  中央仓库
@@ -302,6 +302,38 @@ public class NameValidater implements ParamValidator {
      
     
  }
+
+
+
+
+public class Tests {
+    public static void main(String[] args) {
+        ValidateBuilder validateBuilder = ValidateBuilder.build();
+        int failedCounts = validateBuilder
+                .vali(ne, "sssssss", "111", null)
+                .vali(Chinese, "阿ssss三")
+                .vali(isBirthdaystr, "阿三")
+                .wvali(Chinese, "阿1ssss三", "")
+                .vali(isUrl, "asasa")
+                .doCheck()
+                .getFailedCounts();
+        System.out.println(failedCounts);
+        System.out.println(validateBuilder.getSuccedCounts());
+
+
+        //重复使用 validateBuilder  先调用clear方法
+        int failedCounts2 = validateBuilder
+                .clear()
+                .vali(ne, "sssssss", "111", null)
+                .doCheck()
+                .ifNotPasedThrowException()
+                .getFailedCounts();
+        System.out.println(failedCounts2);
+        System.out.println(validateBuilder.getSuccedCounts());
+
+    }
+}
+
 ```
 
 

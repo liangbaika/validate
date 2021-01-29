@@ -28,3 +28,7 @@
 ## 版本 1.0.0  
 1. 修复bool类型值无法找到getter方法的问题
 2. 稳定大约半年了,  1.0.0版本正式 realeased !!!
+
+## 版本 1.1.0  
+1. fix issue4
+2. 新增ValidateBuilder 代码形式验证

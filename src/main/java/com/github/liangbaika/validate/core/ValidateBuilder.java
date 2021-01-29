@@ -114,7 +114,7 @@ public class ValidateBuilder {
     /**
      * 真正检查的方法
      *
-     * @return
+     * @return ValidateBuilder
      */
     public ValidateBuilder doCheck() {
         for (ValidateChain conn : chains) {
@@ -127,7 +127,7 @@ public class ValidateBuilder {
     /**
      * 此次验证是否通过
      *
-     * @return
+     * @return Boolean
      */
     public Boolean isPassed() {
         if (chains == null || chains.isEmpty()) {
@@ -140,7 +140,7 @@ public class ValidateBuilder {
     /**
      * 不通过就抛出异常 ParamsInValidException
      *
-     * @return
+     * @return ValidateBuilder
      */
     public ValidateBuilder ifNotPasedThrowException() {
         Boolean passed = isPassed();
@@ -153,7 +153,7 @@ public class ValidateBuilder {
     /**
      * 获取失败的消息
      *
-     * @return
+     * @return String
      */
     public String getFailedMsgs() {
         if (chains == null || chains.isEmpty()) {
@@ -167,7 +167,7 @@ public class ValidateBuilder {
     /**
      * 获取失败的条数
      *
-     * @return
+     * @return int
      */
     public int getFailedCounts() {
         if (chains == null || chains.isEmpty()) {
@@ -182,7 +182,7 @@ public class ValidateBuilder {
     /**
      * 获取成功的条数
      *
-     * @return
+     * @return int
      */
     public int getSuccedCounts() {
         if (chains == null || chains.isEmpty()) {

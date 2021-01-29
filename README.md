@@ -297,7 +297,7 @@ public class Tests {
         System.out.println(validateBuilder.getSuccedCounts());
         System.out.println(validateBuilder.getFailedMsgs());
 
-        //重复使用 validateBuilder  先调用clear方法
+        // 重复使用 validateBuilder  先调用clear方法
         int failedCounts2 = validateBuilder
                 .clear()
                 .vali(isGeneral, "ssa2_")

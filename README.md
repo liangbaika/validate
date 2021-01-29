@@ -65,7 +65,7 @@ and resolve it.
 
 # 快速开始（quick start）
 
-##web
+## web
 ```
 package com.github.liangbaika.validate.test;
 
@@ -264,7 +264,7 @@ public class NameValidater implements ParamValidator {
 
 ```
 
-##普通代码形式
+## 普通代码形式
 
 
 ```

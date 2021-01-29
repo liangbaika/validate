@@ -16,16 +16,17 @@ public class Tests {
 
         ValidateBuilder validateBuilder = ValidateBuilder.build();
         int failedCounts = validateBuilder
-                .vali(ne, "测试不等", "测试不等")
+                .vali(ne, "3", "3","不能等于")
                 .vali(Chinese, "测试中文")
                 .vali(isBirthdaystr, "1992-12-09")
                 .vali(isUrl, "https://baidu.com")
                 .doCheck()
                 .getFailedCounts();
         System.out.println(failedCounts);
-        System.out.println(validateBuilder.isPassed());
         System.out.println(validateBuilder.getSuccedCounts());
         System.out.println(validateBuilder.getFailedMsgs());
+        System.out.println(validateBuilder.isPassed());
+
 
         //重复使用 validateBuilder  先调用clear方法
         int failedCounts2 = validateBuilder

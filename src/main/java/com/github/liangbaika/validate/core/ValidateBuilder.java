@@ -201,13 +201,7 @@ public class ValidateBuilder {
      * @return int
      */
     public int getSuccedCounts() {
-        if (chains == null || chains.isEmpty()) {
-            return 0;
-        }
-        return chains.size() - chains.stream()
-                .filter(e -> Boolean.FALSE.equals(e.getResult()))
-                .collect(Collectors.toList())
-                .size();
+        return chains.size() - getFailedCounts();
     }
 
     public List<ValidateChain> getChains() {

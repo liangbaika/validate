@@ -131,37 +131,53 @@ public class ValidateBuilder {
      */
     public Boolean isPassed() {
         if (chains == null || chains.isEmpty()) {
-            throw new ParamsCheckException("chains can not be empty, please call  vali() and doCheck() first");
+            throw new ParamsCheckException("chains can not be empty, please call methods  'vali' and 'doCheck' first");
         }
-        List<ValidateChain> faileds = chains.stream().filter(e -> Boolean.FALSE == e.getResult()).collect(Collectors.toList());
+        List<ValidateChain> faileds = chains.stream().filter(e -> Boolean.FALSE.equals(e.getResult())).collect(Collectors.toList());
         return faileds.size() <= 0;
     }
 
     /**
-     * 不通过就抛出异常 ParamsInValidException
+     * 不通过就抛出异常
+     * ParamsInValidException
      *
      * @return ValidateBuilder
      */
-    public ValidateBuilder ifNotPasedThrowException() {
+    public ValidateBuilder ifNotPassedThrowException() {
+        return ifNotPassedThrowException(null);
+    }
+
+    /**
+     * 不通过就抛出异常
+     *
+     * @return ValidateBuilder
+     */
+    public ValidateBuilder ifNotPassedThrowException(RuntimeException e) {
         Boolean passed = isPassed();
+        if (e == null) {
+            e = new ParamsInValidException(getFailedMsgs());
+        }
         if (!passed) {
-            throw new ParamsInValidException(getFailedMsgs());
+            throw e;
         }
         return this;
     }
 
     /**
      * 获取失败的消息
+     * 没有失败消息返回null
      *
      * @return String
      */
     public String getFailedMsgs() {
         if (chains == null || chains.isEmpty()) {
-            throw new ParamsCheckException("chains can not be empty, please call  vali() and doCheck() first");
+            return null;
         }
-        return chains.stream().filter(e -> Boolean.FALSE == e.getResult())
+        String failedMsgs = chains.stream().filter(e -> Boolean.FALSE.equals(e.getResult()))
                 .map(e -> e.getValue() + " " + e.getMsg() + " " + (e.getExpress() == null ? "" : e.getExpress()))
                 .collect(Collectors.joining(","));
+
+        return "".equals(failedMsgs) ? null : failedMsgs;
     }
 
     /**
@@ -174,7 +190,7 @@ public class ValidateBuilder {
             return 0;
         }
         return chains.stream()
-                .filter(e -> Boolean.FALSE == e.getResult())
+                .filter(e -> Boolean.FALSE.equals(e.getResult()))
                 .collect(Collectors.toList())
                 .size();
     }
@@ -189,7 +205,7 @@ public class ValidateBuilder {
             return 0;
         }
         return chains.size() - chains.stream()
-                .filter(e -> Boolean.FALSE == e.getResult())
+                .filter(e -> Boolean.FALSE.equals(e.getResult()))
                 .collect(Collectors.toList())
                 .size();
     }

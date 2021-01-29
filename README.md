@@ -58,9 +58,14 @@ decoupled from the business code (you need to have the Bean that implements the 
 if illegal paramas then will throw  ParamsValidException, and you should catch this special exception  
 and resolve it. 
  
+# 更新记录
+ 更新记录,请查看changelog.md文件
+ 
 **_JDK>=1.8_**
 
 # 快速开始（quick start）
+
+##web
 ```
 package com.github.liangbaika.validate.test;
 
@@ -257,9 +262,56 @@ public class NameValidater implements ParamValidator {
     
 }
 
+```
+
+##普通代码形式
 
 
+```
+package com.github.liangbaika.validate.test;
 
+import com.github.liangbaika.validate.core.ValidateBuilder;
+
+import static com.github.liangbaika.validate.enums.Check.*;
+
+/**
+ * 测试
+ *
+ * @author lq
+ * @version 1.0
+ * @date 2021/1/29 21:44
+ */
+public class Tests {
+    public static void main(String[] args) {
+        
+        ValidateBuilder validateBuilder = ValidateBuilder.build();
+        int failedCounts = validateBuilder
+                .vali(ne, "测试不等", "测试不等")
+                .vali(Chinese, "测试中文")
+                .vali(isBirthdaystr, "1992-12-09")
+                .vali(isUrl, "https://baidu.com")
+                .doCheck()
+                .getFailedCounts();
+        System.out.println(failedCounts);
+        System.out.println(validateBuilder.isPassed());
+        System.out.println(validateBuilder.getSuccedCounts());
+        System.out.println(validateBuilder.getFailedMsgs());
+
+        //重复使用 validateBuilder  先调用clear方法
+        int failedCounts2 = validateBuilder
+                .clear()
+                .vali(isGeneral, "ssa2_")
+                .vali(Chinese, "测试中文")
+                .vali(isBirthdaystr, "1992/12/09")
+                .vali(isUrl, "http://baidu.com")
+                .doCheck()
+                .ifNotPassedThrowException()
+                .getFailedCounts();
+        System.out.println(failedCounts2);
+        System.out.println(validateBuilder.getSuccedCounts());
+
+    }
+}
 
 ```
 
@@ -302,37 +354,6 @@ public class NameValidater implements ParamValidator {
      
     
  }
-
-
-
-
-public class Tests {
-    public static void main(String[] args) {
-        ValidateBuilder validateBuilder = ValidateBuilder.build();
-        int failedCounts = validateBuilder
-                .vali(ne, "sssssss", "111", null)
-                .vali(Chinese, "阿ssss三")
-                .vali(isBirthdaystr, "阿三")
-                .wvali(Chinese, "阿1ssss三", "")
-                .vali(isUrl, "asasa")
-                .doCheck()
-                .getFailedCounts();
-        System.out.println(failedCounts);
-        System.out.println(validateBuilder.getSuccedCounts());
-
-
-        //重复使用 validateBuilder  先调用clear方法
-        int failedCounts2 = validateBuilder
-                .clear()
-                .vali(ne, "sssssss", "111", null)
-                .doCheck()
-                .ifNotPasedThrowException()
-                .getFailedCounts();
-        System.out.println(failedCounts2);
-        System.out.println(validateBuilder.getSuccedCounts());
-
-    }
-}
 
 ```
 

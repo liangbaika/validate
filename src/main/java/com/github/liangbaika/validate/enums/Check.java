@@ -1,7 +1,6 @@
 package com.github.liangbaika.validate.enums;
 
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.github.liangbaika.validate.utils.CheckUtil;
 
 import java.util.function.BiFunction;
@@ -73,7 +72,7 @@ public enum Check {
 
     Chinese("参数必须是汉字", CheckUtil::isChinese),
 
-    isUrl("参数必须是url", CheckUtil::isUrl),
+    isUrl("参数必须是一个完整的url", CheckUtil::isUrl),
 
     isISBN("参数必须是一个书籍ISBN编号", CheckUtil::isISBN),
 
@@ -118,9 +117,7 @@ public enum Check {
     }
 
     public Boolean vali(Object value, String express) {
-        Boolean checkResult = this.fun.apply(value, express);
-        System.out.println(checkResult);
-        return checkResult;
+        return this.fun.apply(value, express);
     }
 
     public Boolean vali(Object value) {

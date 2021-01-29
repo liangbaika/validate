@@ -32,4 +32,7 @@
 ## 版本 1.1.0  
 1. fix issue4
 2. 新增ValidateBuilder 普通代码形式验证 以支持多场景下的使用
-3. 新增测试 修改部分提示 新增普通代码使用demo, 修改部分文档记录 优化ValidateBuilder代码
+
+## 版本 1.2.0  
+1. 修改部分ValidateBuilder api 
+2. 新增测试 修改部分提示 新增普通代码使用demo, 修改部分文档记录 优化ValidateBuilder代码

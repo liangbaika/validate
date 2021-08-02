@@ -54,30 +54,30 @@ public class AbcValidator implements ConstraintValidator<AbcValidate, Object> {
      */
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-        if (required) {
-            String tmpMsg = msg;
-            Boolean res = false;
-            try {
-                res = func.fun.apply(value, express);
-            } catch (Exception e) {
-                // handle exception
-                String errorMessage = "";
-                if (e.getCause() != null && e.getCause().getMessage() != null) {
-                    errorMessage = e.getCause().getMessage();
-                } else {
-                    errorMessage = e.getMessage();
-                }
-                tmpMsg = msg + "; raw exception occured, info: " + errorMessage;
-            }
-            if (!res) {
-                context.disableDefaultConstraintViolation();
-                context.buildConstraintViolationWithTemplate(tmpMsg)
-                        .addConstraintViolation();
-            }
-            return res;
-        } else {
+        String tmpMsg = msg;
+        Boolean res = false;
+        if (value == null && !required) {
             return true;
         }
+        try {
+            res = func.fun.apply(value, express);
+        } catch (Exception e) {
+            // handle exception
+            String errorMessage = "";
+            if (e.getCause() != null && e.getCause().getMessage() != null) {
+                errorMessage = e.getCause().getMessage();
+            } else {
+                errorMessage = e.getMessage();
+            }
+            tmpMsg = msg + "; raw exception occured, info: " + errorMessage;
+        }
+        if (!res) {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate(tmpMsg)
+                    .addConstraintViolation();
+        }
+        return res;
+
     }
 
 }

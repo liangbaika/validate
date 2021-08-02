@@ -1,6 +1,6 @@
 # validate-spring-boot-starter  
 
-# latest=1.2.1  
+# latest=1.2.2  
 
 
 #  中央仓库

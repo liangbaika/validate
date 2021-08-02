@@ -37,5 +37,6 @@
 1. 修改部分ValidateBuilder api 
 2. 新增测试 修改部分提示 新增普通代码使用demo, 修改部分文档记录 优化ValidateBuilder代码
 
-## 版本 1.2.1
+## 版本 1.2.2
 1. 修复@AbcValidate 注解在require=false 但是在值不为空的时候 跳过校验函数的问题
+
